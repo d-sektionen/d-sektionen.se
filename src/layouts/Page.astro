@@ -1,12 +1,12 @@
 ---
-import Layout from "../layouts/Layout.astro";
-const { frontmatter } = Astro.props;
+import Layout from "./Layout.astro";
+const { data } = Astro.props;
 ---
 
 <Layout>
-    <h1 class="text-2xl">{frontmatter.title}</h1>
+    <h1 class="text-2xl">{data.title}</h1>
     <hr />
-    <div class="text-neutral-400 text-sm pb-4">{frontmatter.date}</div>
+    <!-- <div class="text-neutral-400 text-sm pb-4">{data?.date}</div> -->
     <main class="markdown">
         <slot />
     </main>

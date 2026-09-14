@@ -1,7 +1,6 @@
 ---
 title: "Sellpy söker nu en Junior Software Engineer till sitt engineering-team"
 date: "2026-06-25"
-layout: "../Layout.astro"
 ---
 
 Med över 10 miljoner unika produkter i katalogen och hundratusentals items som hanteras varje vecka arbetar de med stora tekniska utmaningar där varje lösning bidrar till att fler saker får ett längre liv. Deras vision är att göra det möjligt för alla att leva mer cirkulärt och skapa en framtid där fler väljer second hand.

@@ -1,12 +1,10 @@
 ---
 import type { MarkdownInstance } from "astro";
+import { getCollection } from "astro:content";
 
 import LogoDsektionen from "../assets/logo_dsektionen.svg";
 
-const newsItems: MarkdownInstance<{
-    title: string;
-    date: string;
-}>[] = Object.values(import.meta.glob("../pages/news/*.md", { eager: true }));
+const newsCollection = await getCollection("news");
 
 function summarize(content: string): string {
     let summary = content.trim().split(/\s+/).slice(0, 50).join(" ");
@@ -19,16 +17,16 @@ function summarize(content: string): string {
 ---
 
 <main class="max-w-3xl grid gap-12">
-    {newsItems.map((item) => (
-        <a href={item.url}>
+    {newsCollection.map((news) => (
+        <a href={`/news/${news.id}`}>
             <article>
-                <h2 class="bold text-xl">{item.frontmatter.title}</h2>
+                <h2 class="bold text-xl">{news.data.title}</h2>
                 <hr />
                 <div class="text-neutral-400 text-sm pb-4">
-                    {item.frontmatter.date}
+                    {news.data.date}
                 </div>
                 <blockquote class="leading-6">
-                    {summarize(item.rawContent())}
+                    {summarize(news.body)}
                 </blockquote>
             </article>
         </a>

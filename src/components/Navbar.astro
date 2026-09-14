@@ -2,10 +2,14 @@
 import type { MarkdownInstance } from "astro";
 
 import LogoDsektionen from "../assets/logo_dsektionen.svg";
+import { getCollection } from "astro:content";
 
-const navItems: MarkdownInstance<{
-    title: string;
-}>[] = Object.values(import.meta.glob("../pages/nav/*.md", { eager: true }));
+// const navItems: MarkdownInstance<{
+//     title: string;
+// }>[] = Object.values(
+//     import.meta.glob("../pages/nav/*.{md,mdx}", { eager: true }),
+// );
+const navs = await getCollection("nav");
 ---
 
 <nav class="sticky top-0 py-2 bg-background w-full flex flex-col items-center">
@@ -14,11 +18,11 @@ const navItems: MarkdownInstance<{
             <LogoDsektionen />
         </a>
     </div>
-    <ul class="flex">
-        {navItems.map((item) => (
+    <ul class="flex gap-1">
+        {navs.map((item) => (
             <li>
-                <a href={item.url} class="bg-primary text-background">
-                    {item.frontmatter.title}
+                <a href={`/nav/${item.id}`} class="bg-primary text-background">
+                    {item.data.title}
                 </a>
             </li>
         ))}
