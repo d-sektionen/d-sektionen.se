@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+    --color-dsek-pink: #e5398d;
+    --color-dsek-blue: #1e427e;
+    --color-dsek-green: #70be44;
+    --color-dsek-yellow: #f5e81d;
+    --color-dsek-brown: #764122;
+
+    --color-background: #ffffff;
+    --color-on-background: #333333;
+
+    --color-primary: var(--color-dsek-blue);
+    --color-on-primary: var(--color-background);
+}
