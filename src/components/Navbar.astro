@@ -1,0 +1,26 @@
+---
+import type { MarkdownInstance } from "astro";
+
+import LogoDsektionen from "../assets/logo_dsektionen.svg";
+
+const navItems: MarkdownInstance<{
+    title: string;
+}>[] = Object.values(import.meta.glob("../pages/nav/*.md", { eager: true }));
+---
+
+<nav class="sticky top-0 py-2 bg-background w-full flex flex-col items-center">
+    <div>
+        <a href="/">
+            <LogoDsektionen />
+        </a>
+    </div>
+    <ul class="flex">
+        {navItems.map((item) => (
+            <li>
+                <a href={item.url} class="bg-primary text-background">
+                    {item.frontmatter.title}
+                </a>
+            </li>
+        ))}
+    </ul>
+</nav>
