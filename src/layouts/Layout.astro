@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
+import { Font } from "astro:assets";
 ---
 
 <!doctype html>
@@ -11,6 +12,9 @@ import Navbar from "../components/Navbar.astro";
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="generator" content={Astro.generator} />
+
+        <Font cssVariable="--font-rocky-aoe" />
+
         <title>Astro Basics</title>
     </head>
     <body>

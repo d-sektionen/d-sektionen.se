@@ -7,9 +7,13 @@
     --color-dsek-yellow: #f5e81d;
     --color-dsek-brown: #764122;
 
+    --color-staben: #e63e32;
+
     --color-background: #ffffff;
     --color-on-background: #333333;
 
     --color-primary: var(--color-dsek-blue);
     --color-on-primary: var(--color-background);
+
+    --font-rocky-aoe: var(--font-rocky-aoe);
 }
