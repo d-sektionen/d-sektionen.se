@@ -26,7 +26,7 @@ function summarize(content: string): string {
                     {news.data.date}
                 </div>
                 <blockquote class="leading-6">
-                    {summarize(news.body)}
+                    {news.body && summarize(news.body)}
                 </blockquote>
             </article>
         </a>
