@@ -1,5 +1,5 @@
 ---
-title: " Sellpy söker nu en Junior Software Engineer till sitt engineering-team"
+title: "Sellpy söker nu en Junior Software Engineer till sitt engineering-team"
 date: "2026-06-25"
 layout: "../Layout.astro"
 ---
