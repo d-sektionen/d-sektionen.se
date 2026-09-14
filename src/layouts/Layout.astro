@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import { Font } from "astro:assets";
+import Aside from "../data/aside.mdx";
 ---
 
 <!doctype html>
@@ -24,7 +25,9 @@ import { Font } from "astro:assets";
             <div>
                 <slot />
             </div>
-            <div></div>
+            <div>
+                <Aside />
+            </div>
         </div>
     </body>
 </html>
