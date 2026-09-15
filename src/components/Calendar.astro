@@ -4,7 +4,7 @@ import Event from "./Event.astro";
 import { getCollection } from "astro:content";
 import day from "dayjs";
 
-const events = await getCollection("calendar");
+const events = await getCollection("events");
 
 const selectedEvents: CalendarEvent[] = [];
 

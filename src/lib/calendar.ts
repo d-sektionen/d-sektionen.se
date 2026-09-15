@@ -111,7 +111,7 @@ export async function fetchCalendarEvents(
   return parseCalendar(await response.text());
 }
 
-export function calendarLoader(options: { url?: string }) {
+export function eventsLoader(options: { url?: string }) {
   return {
     name: "calendar-loader",
     load: async ({ store, parseData: _ }) => {

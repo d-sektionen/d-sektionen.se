@@ -1,6 +1,6 @@
 import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
-import { calendarLoader } from "@lib/calendar";
+import { eventsLoader } from "@lib/calendar";
 import { z } from "astro/zod";
 
 export const CALENDAR_URL =
@@ -30,7 +30,7 @@ export const collections = {
     }),
   }),
 
-  calendar: defineCollection({
-    loader: calendarLoader({}),
+  events: defineCollection({
+    loader: eventsLoader({}),
   }),
 };
