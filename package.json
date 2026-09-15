@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "d-sektionen",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -19,9 +19,11 @@
     "@tailwindcss/vite": "^4.3.3",
     "@types/sanitize-html": "^2.16.1",
     "astro": "^7.3.2",
+    "astro-pagefind": "^2.0.1",
     "dayjs": "^1.11.23",
     "ical.js": "^2.2.1",
     "lucide-react": "^1.46.0",
+    "pagefind": "^1.5.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "sanitize-html": "^2.17.7",

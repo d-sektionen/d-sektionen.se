@@ -3,6 +3,8 @@ import { defineConfig, fontProviders } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
+import pagefind from "astro-pagefind";
+import * as _ from "pagefind";
 
 import react from "@astrojs/react";
 
@@ -12,7 +14,11 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [mdx(), react()],
+  integrations: [
+    mdx(),
+    react(),
+    pagefind(), // pagefind needs to be loaded last
+  ],
 
   publicDir: "./src/data/public",
 

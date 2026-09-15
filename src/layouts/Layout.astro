@@ -5,6 +5,7 @@ import { Font } from "astro:assets";
 import Aside from "../data/aside.mdx";
 import Footer from "@components/Footer.astro";
 import Calendar from "@components/Calendar.astro";
+import Search from "@components/Search.astro";
 ---
 
 <!doctype html>
@@ -24,6 +25,7 @@ import Calendar from "@components/Calendar.astro";
         <Navbar />
         <div class="grid px-4 lg:grid-cols-[1fr_38em_1fr] gap-8">
             <aside class="flex flex-col items-center lg:items-end gap-4">
+                <Search />
                 <Calendar />
             </aside>
             <div>
