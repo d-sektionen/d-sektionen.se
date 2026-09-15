@@ -12,7 +12,7 @@ import { getCollection } from "astro:content";
 const navs = await getCollection("nav");
 ---
 
-<nav class="sticky top-0 py-2 bg-background w-full flex flex-col items-center">
+<nav class="sticky top-0 py-2 bg-background-50 w-full flex flex-col items-center">
     <div>
         <a href="/">
             <LogoDsektionen />
@@ -21,7 +21,7 @@ const navs = await getCollection("nav");
     <ul class="flex gap-1">
         {navs.map((item) => (
             <li>
-                <a href={`/nav/${item.id}`} class="bg-primary text-background">
+                <a href={`/nav/${item.id}`} class="bg-primary text-foreground-50">
                     {item.data.title}
                 </a>
             </li>
