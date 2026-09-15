@@ -1,0 +1,20 @@
+---
+import FooterMDX from "../data/footer.mdx";
+---
+
+<footer>
+    <div class="grid grid-cols-5 py-4">
+        {[
+            "bg-dsek-brown",
+            "bg-dsek-pink",
+            "bg-dsek-yellow",
+            "bg-dsek-green",
+            "bg-dsek-blue",
+        ].map((color) => (
+            <div class={`${color} h-1.5`} />
+        ))}
+    </div>
+    <div class="text-center markdown">
+        <FooterMDX />
+    </div>
+</footer>
