@@ -116,7 +116,7 @@ function NavigationMenuItem({
 
 const navigationMenuTriggerStyle = cva(
   cn(
-    "capitalize group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center gap-1",
+    "group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center gap-1",
     "rounded-md bg-background-50 px-4 py-2 text-sm font-medium text-foreground-800",
     "outline-none transition-[color,background-color,box-shadow]",
     "hover:bg-background-100 hover:text-foreground-950",

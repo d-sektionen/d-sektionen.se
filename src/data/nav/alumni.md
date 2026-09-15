@@ -1,5 +1,6 @@
 ---
 title: "Alumni"
+category: "Utskott"
 ---
 
 Syftet med verksamheten är att stärka relationen mellan före detta studenter (alumner), universitetet och omvärlden, för att ge möjlighet till ömsesidig utveckling av kunskap, kompetens och kontakter.

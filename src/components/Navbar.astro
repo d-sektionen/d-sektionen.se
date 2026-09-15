@@ -10,36 +10,37 @@ import {
 
 const navs = await getCollection("nav");
 
-// Entries in a subdirectory (e.g. `utskott/alumni.md`) are collected into a
-// dropdown named after that directory; top-level entries stay plain links.
-// Sorting by id keeps the order stable between builds.
+// Entries carrying a `category` are gathered into a dropdown of that name;
+// entries without one stay plain links. Sorting by title keeps the order
+// stable between builds and matches what visitors read.
 const entries = navs
-    .map((nav) => ({ id: nav.id, title: nav.data.title }))
-    .sort((a, b) => a.id.localeCompare(b.id, "sv"));
+    .map((nav) => ({
+        href: `/nav/${nav.id}`,
+        title: nav.data.title,
+        category: nav.data.category,
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title, "sv"));
 
 const groups = new Map<string, SiteNavItem[]>();
 const links: SiteNavItem[] = [];
 
-for (const { id, title } of entries) {
-    const href = `/nav/${id}`;
-    const slash = id.indexOf("/");
-
-    if (slash === -1) {
+for (const { href, title, category } of entries) {
+    if (category === undefined) {
         links.push({ title, href });
         continue;
     }
 
-    const category = id.slice(0, slash);
     const group = groups.get(category) ?? [];
     group.push({ title, href });
     groups.set(category, group);
 }
 
-// Categories first, then the plain links. Both keep the alphabetical order
-// they were collected in.
+// Categories first, alphabetically, then the plain links.
 const items: Navigation = [];
 
-for (const [category, groupItems] of groups) {
+for (const [category, groupItems] of [...groups].sort(([a], [b]) =>
+    a.localeCompare(b, "sv"),
+)) {
     items.push([category, groupItems]);
 }
 
@@ -52,5 +53,5 @@ items.push(...links);
             <LogoDsektionen />
         </a>
     </div>
-    <SiteNav client:idle={{ timeout: 500 }} items={items} />
+    <SiteNav client:load items={items} />
 </nav>
