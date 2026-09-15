@@ -1,0 +1,10 @@
+---
+import { fetchCalendarEvents } from "@lib/calendar";
+import Event from "./Event.astro";
+
+let events = await fetchCalendarEvents();
+---
+
+{events.slice(0, 10).map((event) => (
+    <Event event={event} />
+))}
