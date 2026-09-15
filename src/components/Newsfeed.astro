@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 
 import LogoDsektionen from "../assets/logo_dsektionen.svg";
 
-const newsCollection = await getCollection("news");
+const newsCollection = await getCollection("posts");
 
 function summarize(content: string): string {
     let summary = content.trim().split(/\s+/).slice(0, 50).join(" ");

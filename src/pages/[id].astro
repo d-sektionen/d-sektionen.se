@@ -4,7 +4,7 @@ import PageLayout from "@layouts/Page.astro";
 import { type GetStaticPathsItem } from "astro";
 
 export async function getStaticPaths() {
-    const news = await getCollection("news");
+    const news = await getCollection("posts");
     const nav = await getCollection("nav");
 
     const pages = [...news, ...nav];

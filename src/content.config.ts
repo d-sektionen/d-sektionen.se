@@ -19,10 +19,10 @@ export const collections = {
     }),
   }),
 
-  news: defineCollection({
+  posts: defineCollection({
     loader: glob({
       pattern: "**/*.{md,mdx}",
-      base: "src/data/news",
+      base: "src/data/posts",
     }),
     schema: z.object({
       title: z.string(),
