@@ -4,7 +4,6 @@ import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import pagefind from "astro-pagefind";
-import * as _ from "pagefind";
 
 import react from "@astrojs/react";
 
