@@ -3,7 +3,7 @@ import "../styles/global.css";
 import Navbar from "@components/Navbar.astro";
 import { Font } from "astro:assets";
 import Aside from "../data/aside.mdx";
-import Footer from "@components/Footer.astro"
+import Footer from "@components/Footer.astro";
 ---
 
 <!doctype html>
@@ -21,14 +21,14 @@ import Footer from "@components/Footer.astro"
     </head>
     <body>
         <Navbar />
-        <div class="grid grid-cols-[1fr_38em_1fr]">
+        <div class="grid px-4 lg:grid-cols-[1fr_38em_1fr] gap-8">
             <div></div>
             <div>
                 <slot />
             </div>
-            <div>
+            <aside class="flex flex-col gap-4">
                 <Aside />
-            </div>
+            </aside>
         </div>
         <Footer />
     </body>
