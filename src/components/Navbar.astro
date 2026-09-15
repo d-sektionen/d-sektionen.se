@@ -15,7 +15,7 @@ const navs = await getCollection("nav");
 // stable between builds and matches what visitors read.
 const entries = navs
     .map((nav) => ({
-        href: `/nav/${nav.id}`,
+        href: `/${nav.id}`,
         title: nav.data.title,
         category: nav.data.category,
     }))

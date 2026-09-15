@@ -18,7 +18,7 @@ function summarize(content: string): string {
 
 <main class="max-w-3xl grid gap-12">
     {newsCollection.map((news) => (
-        <a href={`/news/${news.id}`}>
+        <a href={`/${news.id}`}>
             <article>
                 <h2 class="bold text-xl">{news.data.title}</h2>
                 <hr />
