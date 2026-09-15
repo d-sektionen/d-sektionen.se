@@ -6,7 +6,7 @@ import day from "dayjs";
 
 const events = await getCollection("events");
 
-const selectedEvents: CalendarEvent[] = [];
+const selectedEvents: { id: string; event: CalendarEvent }[] = [];
 
 for (const event of events) {
     if (selectedEvents.length >= 10) {
@@ -18,10 +18,13 @@ for (const event of events) {
         continue;
     }
 
-    selectedEvents.push(event.data);
+    selectedEvents.push({
+        id: event.id,
+        event: event.data,
+    });
 }
 ---
 
-{selectedEvents.slice(0, 10).map((event) => (
-    <Event event={event} />
+{selectedEvents.slice(0, 10).map(({ id, event }) => (
+    <Event id={id} event={event} />
 ))}

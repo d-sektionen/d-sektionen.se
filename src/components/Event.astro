@@ -4,19 +4,17 @@ import sanitizeHtml from "sanitize-html";
 import day from "dayjs";
 
 interface Props {
+    id: string;
     event: CalendarEvent;
 }
 
-const { event } = Astro.props;
+const { id, event } = Astro.props;
 const start = day(event.start);
 const end = day(event.end);
-const description = event.description
-    ? sanitizeHtml(event.description, { allowedTags: [] })
-    : "";
 ---
 
 <a
-    href={`/events/${event.uid}`}
+    href={`/events/${id}`}
     class="flex h-fit gap-4 bg-background-100 p-2 w-70 outline-1 outline-background-300 shadow-sm focus:outline-2 focus:outline-dsek-pink"
 >
     <div class="flex flex-col aspect-square items-center bg-background-200 p-2 justify-between size-22">

@@ -119,8 +119,11 @@ export function eventsLoader(options: { url?: string }) {
 
       store.clear();
       for (const event of events) {
+        const uidSplit = event.uid.split("@");
+        const id = uidSplit[0];
+
         store.set({
-          id: event.uid,
+          id,
           data: event,
         });
       }
