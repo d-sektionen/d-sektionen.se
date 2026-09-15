@@ -5,7 +5,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@components/ui/navigation-menu";
 
 /** A single navigable page. */
@@ -50,7 +49,7 @@ export function SiteNav({ items }: { items: Navigation }) {
               <NavigationMenuTrigger>{item[0]}</NavigationMenuTrigger>
               <NavigationMenuContent>
                 {item[1].map((subitem) => (
-                  <NavigationMenuLink href={subitem.href}>
+                  <NavigationMenuLink href={subitem.href} key={subitem.href}>
                     {subitem.title}
                   </NavigationMenuLink>
                 ))}
@@ -58,10 +57,7 @@ export function SiteNav({ items }: { items: Navigation }) {
             </NavigationMenuItem>
           ) : (
             <NavigationMenuItem key={item.href}>
-              <NavigationMenuLink
-                href={item.href}
-                className={navigationMenuTriggerStyle()}
-              >
+              <NavigationMenuLink variant="trigger" href={item.href}>
                 {item.title}
               </NavigationMenuLink>
             </NavigationMenuItem>
