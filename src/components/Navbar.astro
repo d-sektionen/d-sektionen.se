@@ -1,15 +1,49 @@
 ---
-import type { MarkdownInstance } from "astro";
-
 import LogoDsektionen from "../assets/logo_dsektionen.svg";
 import { getCollection } from "astro:content";
 
-// const navItems: MarkdownInstance<{
-//     title: string;
-// }>[] = Object.values(
-//     import.meta.glob("../pages/nav/*.{md,mdx}", { eager: true }),
-// );
+import {
+    SiteNav,
+    type Navigation,
+    type SiteNavItem,
+} from "@components/SiteNav";
+
 const navs = await getCollection("nav");
+
+// Entries in a subdirectory (e.g. `utskott/alumni.md`) are collected into a
+// dropdown named after that directory; top-level entries stay plain links.
+// Sorting by id keeps the order stable between builds.
+const entries = navs
+    .map((nav) => ({ id: nav.id, title: nav.data.title }))
+    .sort((a, b) => a.id.localeCompare(b.id, "sv"));
+
+const groups = new Map<string, SiteNavItem[]>();
+const links: SiteNavItem[] = [];
+
+for (const { id, title } of entries) {
+    const href = `/nav/${id}`;
+    const slash = id.indexOf("/");
+
+    if (slash === -1) {
+        links.push({ title, href });
+        continue;
+    }
+
+    const category = id.slice(0, slash);
+    const group = groups.get(category) ?? [];
+    group.push({ title, href });
+    groups.set(category, group);
+}
+
+// Categories first, then the plain links. Both keep the alphabetical order
+// they were collected in.
+const items: Navigation = [];
+
+for (const [category, groupItems] of groups) {
+    items.push([category, groupItems]);
+}
+
+items.push(...links);
 ---
 
 <nav class="sticky top-0 py-2 bg-background-50 w-full flex flex-col items-center">
@@ -18,13 +52,5 @@ const navs = await getCollection("nav");
             <LogoDsektionen />
         </a>
     </div>
-    <ul class="flex gap-1">
-        {navs.map((item) => (
-            <li>
-                <a href={`/nav/${item.id}`} class="bg-primary text-foreground-50">
-                    {item.data.title}
-                </a>
-            </li>
-        ))}
-    </ul>
+    <SiteNav client:idle={{ timeout: 500 }} items={items} />
 </nav>
