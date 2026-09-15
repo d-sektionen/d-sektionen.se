@@ -36,10 +36,14 @@ const description = event.description
             /> -->
         </div>
 
-        <div class="flex justify-end">
-            <div class="text-sm text-foreground-800 bg-background-50 px-2 outline-1 outline-background-200">
-                {start.format("HH:mm")} - {end.format("HH:mm")}
+        {event.allDay || (
+            <div class="flex justify-end">
+                <div class="text-sm text-foreground-800 bg-background-50 px-2 outline-1 outline-background-200">
+                    {start.isSame(end, "day")
+                        ? `${start.format("HH:mm")} - ${end.format("HH:mm")}`
+                        : `${start.format("YY-MM-DD")} - ${end.format("YY-MM-DD")}`}
+                </div>
             </div>
-        </div>
+        )}
     </div>
 </a>
