@@ -12,8 +12,9 @@ import Aside from "../data/aside.mdx";
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="generator" content={Astro.generator} />
-
         <Font cssVariable="--font-rocky-aoe" />
+
+        <slot name="head" />
 
         <title>Datateknologsektionen vid Linköpings universitet</title>
     </head>

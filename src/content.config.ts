@@ -10,6 +10,7 @@ export const collections = {
     }),
     schema: z.object({
       title: z.string(),
+      redirect: z.url(),
     }),
   }),
 
