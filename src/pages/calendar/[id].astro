@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from "astro:content";
+import PageLayout from "../../layouts/Page.astro";
+import day from "dayjs";
+import sanitizeHtml from "sanitize-html";
+
+export async function getStaticPaths() {
+    const events = await getCollection("calendar");
+    return events.map((event) => ({
+        params: { id: event.id },
+        props: { page: event.data },
+    }));
+}
+
+const { page } = Astro.props;
+
+const description = page.description
+    ? sanitizeHtml(page.description, {
+          allowedTags: ["b", "i", "em", "strong", "a"],
+          allowedAttributes: {
+              a: ["href"],
+          },
+      })
+    : "";
+---
+
+<PageLayout
+    data={{ title: page.title, date: day(page.start).format("YYYY-MM-DD") }}
+>
+    <div set:html={description} />
+</PageLayout>

@@ -1,4 +1,6 @@
 import ICAL from "ical.js";
+import { z } from "astro/zod";
+import type { Loader } from "astro/loaders";
 
 /**
  * D-Sektionen's public Google Calendar feed. Anyone with the link can read it,
@@ -107,4 +109,30 @@ export async function fetchCalendarEvents(
   }
 
   return parseCalendar(await response.text());
+}
+
+export function calendarLoader(options: { url?: string }) {
+  return {
+    name: "calendar-loader",
+    load: async ({ store, parseData: _ }) => {
+      const events = await fetchCalendarEvents(options.url || CALENDAR_URL);
+
+      store.clear();
+      for (const event of events) {
+        store.set({
+          id: event.uid,
+          data: event,
+        });
+      }
+    },
+    schema: z.object({
+      uid: z.string(),
+      title: z.string(),
+      start: z.date(),
+      end: z.date(),
+      allDay: z.boolean(),
+      description: z.string().optional(),
+      location: z.string().optional(),
+    }),
+  } satisfies Loader;
 }

@@ -1,10 +1,11 @@
 ---
 import { fetchCalendarEvents } from "@lib/calendar";
 import Event from "./Event.astro";
+import { getCollection } from "astro:content";
 
-let events = await fetchCalendarEvents();
+const events = await getCollection("calendar");
 ---
 
 {events.slice(0, 10).map((event) => (
-    <Event event={event} />
+    <Event event={event.data} />
 ))}
