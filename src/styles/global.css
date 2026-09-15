@@ -81,6 +81,11 @@
             }
         }
 
+        & ul {
+            list-style-type: disc;
+            padding-inline-start: --spacing(6);
+        }
+
         & img {
             margin: auto;
             padding-block: --spacing(4);
