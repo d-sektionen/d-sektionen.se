@@ -117,12 +117,12 @@ function NavigationMenuItem({
 const navigationMenuTriggerStyle = cva(
   cn(
     "group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center gap-1",
-    "rounded-md bg-background-50 px-4 py-2 text-sm font-medium text-foreground-800",
+    "bg-background-50 px-4 py-2 text-sm font-medium text-foreground-800",
     "outline-none transition-[color,background-color,box-shadow]",
-    "hover:bg-background-100 hover:text-foreground-950",
+    "hover:bg-dsek-pink hover:text-foreground-50",
     "focus-visible:ring-2 focus-visible:ring-primary",
     "disabled:pointer-events-none disabled:opacity-50",
-    "data-popup-open:bg-background-100 data-popup-open:text-foreground-950",
+    "data-popup-open:bg-dsek-pink data-popup-open:text-foreground-50",
   ),
 );
 
@@ -192,7 +192,7 @@ function NavigationMenuPositioner({
         <NavigationMenuPrimitive.Popup
           className={cn(
             "relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin)",
-            "rounded-md border border-background-200 bg-background-50 text-foreground-800 shadow-lg",
+            "border border-background-200 bg-background-50 text-foreground-800 shadow-lg",
             "transition-[opacity,transform,width,height,scale,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
             "data-starting-style:scale-95 data-starting-style:opacity-0",
             "data-ending-style:scale-95 data-ending-style:opacity-0",
@@ -213,9 +213,9 @@ function NavigationMenuLink({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "py-4 px-8 block select-none rounded-md p-3 leading-none no-underline outline-none",
+        "py-4 px-8 block select-none leading-none no-underline outline-none",
         "text-foreground-800 transition-colors",
-        "hover:bg-background-100 hover:text-foreground-950",
+        "hover:bg-dsek-pink hover:text-foreground-50",
         "focus-visible:bg-background-100 focus-visible:ring-2 focus-visible:ring-primary",
         "data-active:bg-background-100",
         className,
