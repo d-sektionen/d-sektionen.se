@@ -155,7 +155,7 @@ function NavigationMenuTrigger({
       {children}
       <ChevronDownIcon
         aria-hidden="true"
-        className="relative top-px size-3 shrink-0 transition-transform duration-200 [[data-popup-open]_&]:rotate-180"
+        className="relative top-px size-3 shrink-0 transition-transform duration-200 in-data-popup-open:rotate-180"
       />
     </NavigationMenuPrimitive.Trigger>
   );
