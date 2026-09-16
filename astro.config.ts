@@ -6,7 +6,7 @@ import mdx from "@astrojs/mdx";
 import { visualizer } from "rollup-plugin-visualizer";
 import pagefind from "astro-pagefind";
 
-import preact from "@astrojs/preact";
+import react from "@astrojs/react";
 
 import sitemap from "@astrojs/sitemap";
 
@@ -25,10 +25,10 @@ export default defineConfig({
   site: "https://d-sektionen.se",
   integrations: [
     mdx(),
-    preact({ compat: true }),
+    sitemap(),
+    react(),
     // pagefind needs to be loaded last
     pagefind(),
-    sitemap(),
   ],
 
   publicDir: "./src/data/public",
