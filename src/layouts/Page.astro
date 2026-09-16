@@ -1,0 +1,49 @@
+---
+import Layout from "./Layout.astro";
+import day from "dayjs";
+
+interface PageData {
+    title: string;
+    date?: Date;
+    redirect?: string;
+}
+
+interface Props {
+    data: PageData;
+}
+
+
+const { data } = Astro.props;
+
+console.log(data.date);
+---
+
+<Layout>
+    {data.redirect && (
+        <meta
+            slot="head"
+            http-equiv="refresh"
+            content={`0; url=${data.redirect}`}
+        />
+    )}
+
+    <h1 class="text-3xl">{data.title}</h1>
+    <hr />
+    {
+      data?.date &&
+      <div class="text-foreground-500 text-sm pb-4">{day(data?.date).format("YYYY-MM-DD")}</div>
+    }
+
+    <main>
+        {data.redirect && (
+            <div class="text-center">
+                Om du inte skickas vidare automatiskt:{" "}
+                <a href={data.redirect}>Clicka här</a>
+            </div>
+        )}
+
+        <div class="markdown">
+            <slot />
+        </div>
+    </main>
+</Layout>
