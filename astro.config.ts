@@ -3,9 +3,9 @@ import { defineConfig, fontProviders } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
-import react from "@astrojs/react";
-
 import { visualizer } from "rollup-plugin-visualizer";
+
+import preact from "@astrojs/preact";
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,7 +19,7 @@ export default defineConfig({
     ],
   },
 
-  integrations: [mdx(), react()],
+  integrations: [mdx(), preact()],
 
   publicDir: "./src/data/public",
 
