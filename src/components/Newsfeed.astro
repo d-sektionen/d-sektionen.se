@@ -18,9 +18,9 @@ function summarize(content: string): string {
 
 <main class="max-w-3xl grid gap-12">
     {newsCollection.map((news) => (
-        <a href={`/${news.id}`}>
+        <a href={`/${news.id}`} class="group">
             <article>
-                <h2 class="bold text-xl">{news.data.title}</h2>
+                <h2 class="bold text-xl group-hover:underline group-hover:text-primary" >{news.data.title}</h2>
                 <hr />
                 <div class="text-foreground-500 text-sm pb-4">
                     {news.data.date}
