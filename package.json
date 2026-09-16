@@ -10,7 +10,6 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "fix": "astro check --write",
     "astro": "astro"
   },
   "dependencies": {
