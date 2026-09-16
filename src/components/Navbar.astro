@@ -53,5 +53,16 @@ items.push(...links);
             <LogoDsektionen />
         </a>
     </div>
-    <SiteNav client:idle items={items} />
+    <!--
+      client:only is required, not a preference. Base UI's store code imports
+      use-sync-external-store's CJS shim, which under Preact compat loads
+      preact's CJS build while Astro's ESM renderer uses the ESM build. The two
+      copies keep separate hook state, so server rendering throws
+      "Cannot read properties of undefined (reading '__H')".
+      Upstream: https://github.com/mui/base-ui/issues/4670 (open).
+      Trade-off: the menu is no longer in the served HTML.
+    -->
+    <div class="min-h-9">
+        <SiteNav client:only="preact" items={items} />
+    </div>
 </nav>

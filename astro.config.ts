@@ -22,7 +22,7 @@ export default defineConfig({
 
   integrations: [
     mdx(),
-    preact(),
+    preact({ compat: true }),
     pagefind(), // pagefind needs to be loaded last
   ],
 
