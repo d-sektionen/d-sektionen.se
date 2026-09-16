@@ -23,10 +23,15 @@ export const collections = {
     loader: glob({
       pattern: "**/*.{md,mdx}",
       base: "data/posts",
+      generateId: (options) => {
+        const filename = options.entry.split("/").at(-1)!;
+        const [id] = filename.split(".md");
+        return id;
+      },
     }),
     schema: z.object({
       title: z.string(),
-      date: z.iso.date(),
+      date: z.coerce.date(),
     }),
   }),
 

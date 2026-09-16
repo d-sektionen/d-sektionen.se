@@ -1,10 +1,19 @@
 ---
 import { getCollection } from "astro:content";
+import day from "dayjs"
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import sanitizeHtml from "sanitize-html";
 
-const newsCollection = await getCollection("posts");
+const mdProcessor = await createMarkdownProcessor();
 
-function summarize(content: string): string {
-    let summary = content.trim().split(/\s+/).slice(0, 50).join(" ");
+const posts = await getCollection("posts");
+posts.sort((a, b) => (b.data.date.getTime() - a.data.date.getTime()))
+
+async function summarize(content: string): Promise<string> {
+    let render = await mdProcessor.render(content)
+    let plain = sanitizeHtml(render.code, {allowedTags: []});
+
+    let summary = plain.trim().split(/\s+/).slice(0, 50).join(" ");
     if (content.length != summary.length) {
         summary += " [...]";
     }
@@ -14,13 +23,13 @@ function summarize(content: string): string {
 ---
 
 <main class="max-w-3xl grid gap-12">
-    {newsCollection.map((news) => (
-        <a href={`/${news.id}`} class="group">
+    {posts.map((news) => (
+        <a href={`/${news.id}`} class="group overflow-hidden">
             <article>
                 <h2 class="bold text-xl group-hover:underline group-hover:text-primary" >{news.data.title}</h2>
                 <hr />
                 <div class="text-foreground-500 text-sm pb-4">
-                    {news.data.date}
+                    {day(news.data.date).format("YYYY-MM-DD")}
                 </div>
                 <blockquote class="leading-6">
                     {news.body && summarize(news.body)}

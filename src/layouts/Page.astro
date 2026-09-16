@@ -1,9 +1,10 @@
 ---
 import Layout from "./Layout.astro";
+import day from "dayjs";
 
 interface PageData {
     title: string;
-    date?: string;
+    date?: Date;
     redirect?: string;
 }
 
@@ -11,7 +12,10 @@ interface Props {
     data: PageData;
 }
 
+
 const { data } = Astro.props;
+
+console.log(data.date);
 ---
 
 <Layout>
@@ -25,7 +29,10 @@ const { data } = Astro.props;
 
     <h1 class="text-3xl">{data.title}</h1>
     <hr />
-    <div class="text-foreground-500 text-sm pb-4">{data?.date}</div>
+    {
+      data?.date &&
+      <div class="text-foreground-500 text-sm pb-4">{day(data?.date).format("YYYY-MM-DD")}</div>
+    }
 
     <main>
         {data.redirect && (
