@@ -10,7 +10,7 @@ export const collections = {
   nav: defineCollection({
     loader: glob({
       pattern: "**/*.{md,mdx}",
-      base: "src/data/nav",
+      base: "data/nav",
     }),
     schema: z.object({
       title: z.string(),
@@ -22,7 +22,7 @@ export const collections = {
   posts: defineCollection({
     loader: glob({
       pattern: "**/*.{md,mdx}",
-      base: "src/data/posts",
+      base: "data/posts",
     }),
     schema: z.object({
       title: z.string(),
