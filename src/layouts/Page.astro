@@ -7,6 +7,10 @@ interface PageData {
     redirect?: string;
 }
 
+interface Props {
+    data: PageData;
+}
+
 const { data } = Astro.props;
 ---
 

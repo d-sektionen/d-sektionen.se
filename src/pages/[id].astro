@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
 import PageLayout from "@layouts/Page.astro";
-import { type GetStaticPathsItem } from "astro";
 
 export async function getStaticPaths() {
     const news = await getCollection("posts");
