@@ -111,7 +111,7 @@ export async function fetchCalendarEvents(
   return parseCalendar(await response.text());
 }
 
-export function calendarLoader(options: { url?: string }) {
+export function eventsLoader(options: { url?: string }) {
   return {
     name: "calendar-loader",
     load: async ({ store, parseData: _ }) => {
@@ -119,8 +119,11 @@ export function calendarLoader(options: { url?: string }) {
 
       store.clear();
       for (const event of events) {
+        const uidSplit = event.uid.split("@");
+        const id = uidSplit[0];
+
         store.set({
-          id: event.uid,
+          id,
           data: event,
         });
       }

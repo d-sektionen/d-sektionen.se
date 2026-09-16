@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "d-sektionen",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,9 +9,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.10",
     "@astrojs/markdown-satteri": "^0.4.1",
     "@astrojs/mdx": "^8.0.1",
     "@astrojs/preact": "^6.0.5",
@@ -19,13 +21,15 @@
     "@tailwindcss/vite": "^4.3.3",
     "@types/sanitize-html": "^2.16.1",
     "astro": "^7.3.2",
+    "astro-pagefind": "^2.0.1",
     "dayjs": "^1.11.23",
     "ical.js": "^2.2.1",
     "lucide-react": "^1.46.0",
     "preact": "^10.29.8",
     "sanitize-html": "^2.17.7",
     "sharp": "^0.35.4",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3"
   },
   "allowScripts": {
     "esbuild": true

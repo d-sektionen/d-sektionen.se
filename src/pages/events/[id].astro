@@ -1,11 +1,11 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import PageLayout from "../../layouts/Page.astro";
 import day from "dayjs";
 import sanitizeHtml from "sanitize-html";
 
 export async function getStaticPaths() {
-    const events = await getCollection("calendar");
+    const events = await getCollection("events");
     return events.map((event) => ({
         params: { id: event.id },
         props: { page: event.data },

@@ -4,6 +4,7 @@ import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import { visualizer } from "rollup-plugin-visualizer";
+import pagefind from "astro-pagefind";
 
 import preact from "@astrojs/preact";
 
@@ -19,7 +20,11 @@ export default defineConfig({
     ],
   },
 
-  integrations: [mdx(), preact()],
+  integrations: [
+    mdx(),
+    preact(),
+    pagefind(), // pagefind needs to be loaded last
+  ],
 
   publicDir: "./src/data/public",
 

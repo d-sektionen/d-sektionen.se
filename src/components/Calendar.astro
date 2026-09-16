@@ -1,11 +1,30 @@
 ---
-import { fetchCalendarEvents } from "@lib/calendar";
+import { type CalendarEvent } from "@lib/calendar";
 import Event from "./Event.astro";
 import { getCollection } from "astro:content";
+import day from "dayjs";
 
-const events = await getCollection("calendar");
+const events = await getCollection("events");
+
+const selectedEvents: { id: string; event: CalendarEvent }[] = [];
+
+for (const event of events) {
+    if (selectedEvents.length >= 10) {
+        break;
+    }
+
+    // if the event has already ended
+    if (day(event.data.end).isBefore(day())) {
+        continue;
+    }
+
+    selectedEvents.push({
+        id: event.id,
+        event: event.data,
+    });
+}
 ---
 
-{events.slice(0, 10).map((event) => (
-    <Event event={event.data} />
+{selectedEvents.slice(0, 10).map(({ id, event }) => (
+    <Event id={id} event={event} />
 ))}

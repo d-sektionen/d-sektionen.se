@@ -5,6 +5,7 @@ import { Font } from "astro:assets";
 import Aside from "../data/aside.mdx";
 import Footer from "@components/Footer.astro";
 import Calendar from "@components/Calendar.astro";
+import Search from "@components/Search.astro";
 ---
 
 <!doctype html>
@@ -14,6 +15,14 @@ import Calendar from "@components/Calendar.astro";
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="generator" content={Astro.generator} />
+        <meta
+            name="description"
+            content="D-sektionen vid LiU bildades 1976 i Linköping och har Sveriges äldsta och mest moderna datateknologiska utbildningar."
+        />
+        <meta
+            name="keywords"
+            content="dsektionen,d-sektionen,datateknik,datateknologsektionen,datatekniksektionen,datasektionen,liu,lith"
+        />
         <Font cssVariable="--font-rocky-aoe" />
 
         <slot name="head" />
@@ -24,6 +33,7 @@ import Calendar from "@components/Calendar.astro";
         <Navbar />
         <div class="grid px-4 lg:grid-cols-[1fr_38em_1fr] gap-8">
             <aside class="flex flex-col items-center lg:items-end gap-4">
+                <Search />
                 <Calendar />
             </aside>
             <div>
