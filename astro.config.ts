@@ -8,6 +8,8 @@ import pagefind from "astro-pagefind";
 
 import preact from "@astrojs/preact";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -20,10 +22,13 @@ export default defineConfig({
     ],
   },
 
+  site: "https://d-sektionen.se",
   integrations: [
     mdx(),
     preact({ compat: true }),
-    pagefind(), // pagefind needs to be loaded last
+    // pagefind needs to be loaded last
+    pagefind(),
+    sitemap(),
   ],
 
   publicDir: "./src/data/public",
