@@ -3,10 +3,10 @@ import { getCollection, render } from "astro:content";
 import PageLayout from "@layouts/Page.astro";
 
 export async function getStaticPaths() {
-    const news = await getCollection("posts");
+    const posts = await getCollection("posts");
     const nav = await getCollection("nav");
 
-    const pages = [...news, ...nav];
+    const pages = [...posts, ...nav];
 
     // TODO: avoid duplicate ids
 
