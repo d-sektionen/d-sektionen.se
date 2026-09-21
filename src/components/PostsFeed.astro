@@ -9,7 +9,7 @@ interface Props {
        id: string;
        body?: string;
        data: InferEntrySchema<"posts">;
-   }
+       }[]
 }
 
 const { posts } = Astro.props;
@@ -22,8 +22,11 @@ async function summarize(content: string): Promise<string> {
     let render = await mdProcessor.render(content)
     let plain = sanitizeHtml(render.code, {allowedTags: []});
 
+    // Get first 50 words
     let summary = plain.trim().split(/\s+/).slice(0, 50).join(" ");
-    if (content.length != summary.length) {
+
+    // Some of the content got cut off
+    if (summary != plain) {
         summary += " [...]";
     }
 
@@ -35,7 +38,7 @@ async function summarize(content: string): Promise<string> {
     {posts.map((post) => (
         <a href={`/${post.id}`} class="group overflow-hidden">
             <article>
-                <h2 class="bold text-xl group-hover:underline group-hover:text-primary" >{news.data.title}</h2>
+                <h2 class="bold text-xl group-hover:underline group-hover:text-primary" >{post.data.title}</h2>
                 <hr />
                 <div class="text-foreground-500 text-sm pb-4">
                     {day(post.data.date).format("YYYY-MM-DD")}

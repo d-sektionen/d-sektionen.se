@@ -26,7 +26,7 @@ export const collections = {
     }),
     schema: z.object({
       title: z.string(),
-      date: z.iso.date(),
+      date: z.coerce.date(),
     }),
   }),
 

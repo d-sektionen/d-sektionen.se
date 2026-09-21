@@ -1,8 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Newsfeed from "../components/Newsfeed.astro";
+import { getCollection } from "astro:content";
+import PostsFeed from "@components/PostsFeed.astro";
+
+const posts = await getCollection("posts");
 ---
 
 <Layout>
-    <Newsfeed />
+    <PostsFeed posts={posts} />
 </Layout>
