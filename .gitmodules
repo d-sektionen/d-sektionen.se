@@ -1,0 +1,3 @@
+[submodule "src/content"]
+	path = src/content
+	url = ../../d-sektionen/d-sektionen.se-content.git
