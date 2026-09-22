@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "format": "prettier --write .",
     "check": "astro check",
     "astro": "astro"
   },
@@ -42,6 +43,9 @@
     "esbuild": true
   },
   "devDependencies": {
+    "prettier": "^3.9.8",
+    "prettier-plugin-astro": "^1.0.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "rollup-plugin-visualizer": "^7.1.1"
   }
 }
