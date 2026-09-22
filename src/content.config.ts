@@ -1,4 +1,4 @@
-import { glob } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { eventsLoader } from "@lib/calendar";
 import { z } from "astro/zod";
@@ -32,6 +32,16 @@ export const collections = {
     schema: z.object({
       title: z.string(),
       date: z.coerce.date(),
+      categories: z.array(z.string()).default([]),
+    }),
+  }),
+
+  categories: defineCollection({
+    loader: file("src/content/posts/categories.json"),
+    schema: z.object({
+      name: z.string(),
+      description: z.string().optional(),
+      frontPage: z.boolean().default(false),
     }),
   }),
 
