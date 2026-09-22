@@ -46,7 +46,13 @@ export default defineConfig([
     extends: ["css/recommended"],
   },
   ...eslintPluginAstro.configs["flat/recommended"],
-  eslintPluginTailwindcss.configs.recommended as Config,
+  {
+    rules: {
+      // This rule collides with Prettiers formatting
+      "tailwindcss/classnames-order": "off",
+    },
+    extends: [eslintPluginTailwindcss.configs.recommended as Config],
+  },
   // The plugin defaults `cssConfigPath` to `src/style.css`, which does not exist here.
   { settings: { tailwindcss: { cssConfigPath: "src/styles/global.css" } } },
   {
