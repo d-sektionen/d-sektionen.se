@@ -3,9 +3,6 @@ import { defineCollection } from "astro:content";
 import { eventsLoader } from "@lib/calendar";
 import { z } from "astro/zod";
 
-export const CALENDAR_URL =
-  "https://calendar.google.com/calendar/ical/c_93a709266d679561caf5bcc20fb621fb0af75dd7d6e78c568b65fec39fc34e3b%40group.calendar.google.com/public/basic.ics";
-
 export const collections = {
   pages: defineCollection({
     loader: glob({
