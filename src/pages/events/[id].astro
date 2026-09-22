@@ -8,14 +8,14 @@ export async function getStaticPaths() {
     const events = await getCollection("events");
     return events.map((event) => ({
         params: { id: event.id },
-        props: { page: event.data },
+        props: { event: event.data },
     }));
 }
 
-const { page } = Astro.props;
+const { event } = Astro.props;
 
-const description = page.description
-    ? sanitizeHtml(page.description, {
+const description = event.description
+    ? sanitizeHtml(event.description, {
           allowedTags: ["b", "i", "em", "strong", "a"],
           allowedAttributes: {
               a: ["href"],
@@ -25,7 +25,7 @@ const description = page.description
 ---
 
 <PageLayout
-    data={{ title: page.title, date: day(page.start).format("YYYY-MM-DD") }}
+    data={{ title: event.title, date: event.start }}
 >
     <div set:html={description} />
 </PageLayout>
