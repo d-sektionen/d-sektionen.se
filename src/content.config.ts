@@ -1,6 +1,6 @@
-import { file, glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { eventsLoader } from "@lib/calendar";
+import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 export const collections = {

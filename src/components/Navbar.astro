@@ -1,12 +1,11 @@
 ---
-import LogoDsektionen from "../assets/logo_dsektionen.svg";
 import { getCollection } from "astro:content";
-
 import {
-  SiteNav,
   type Navigation,
+  SiteNav,
   type SiteNavItem,
 } from "@components/SiteNav";
+import LogoDsektionen from "../assets/logo_dsektionen.svg";
 
 const pages = await getCollection("pages");
 

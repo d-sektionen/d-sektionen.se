@@ -1,6 +1,6 @@
-import ICAL from "ical.js";
-import { z } from "astro/zod";
 import type { Loader } from "astro/loaders";
+import { z } from "astro/zod";
+import ICAL from "ical.js";
 
 /**
  * D-Sektionen's public Google Calendar feed. Anyone with the link can read it,

@@ -25,10 +25,7 @@
     }
   },
   "html": {
-    "experimentalFullSupportEnabled": true,
-    "formatter": {
-      "enabled": true
-    }
+    "experimentalFullSupportEnabled": true
   },
   "assist": {
     "enabled": true,

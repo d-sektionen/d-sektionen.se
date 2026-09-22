@@ -1,7 +1,7 @@
 ---
-import { type InferEntrySchema } from "astro:content";
-import day from "@lib/dayjs";
+import type { InferEntrySchema } from "astro:content";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
+import day from "@lib/dayjs";
 import sanitizeHtml from "sanitize-html";
 
 interface Props {
