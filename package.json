@@ -12,11 +12,9 @@
     "format": "prettier --write .",
     "check:astro": "astro check",
     "check:eslint": "eslint .",
-    "check:prettier": "prettier --check .",
-    "check": "astro check && eslint . && prettier --check .",
+    "check": "astro check && eslint .",
     "fix:eslint": "eslint . --fix",
-    "fix:prettier": "prettier --write .",
-    "fix": "eslint . --fix && prettier --write .",
+    "fix": "eslint . --fix",
     "astro": "astro"
   },
   "dependencies": {
