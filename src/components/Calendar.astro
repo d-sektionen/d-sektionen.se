@@ -25,6 +25,6 @@ for (const event of events) {
 }
 ---
 
-{selectedEvents.slice(0, 10).map(({ id, event }) => (
-  <Event id={id} event={event} />
-))}
+{selectedEvents
+  .slice(0, 10)
+  .map(({ id, event }) => <Event id={id} event={event} />)}
