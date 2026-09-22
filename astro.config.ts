@@ -31,7 +31,7 @@ export default defineConfig({
     pagefind(),
   ],
 
-  publicDir: "./src/data/public",
+  publicDir: "./src/content/public",
 
   fonts: [
     {
