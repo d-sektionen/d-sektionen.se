@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string;
+  href?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="flex h-fit items-center flex-col gap-4 bg-background-100 py-4 px-8 w-62 outline-1 outline-background-300 shadow-sm">
+  <h3 class="text-foreground-700">{title}</h3>
+  <div class="slot">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .slot {
+    & p {
+      display: grid;
+      gap: 2em;
+    }
+  }
+</style>
