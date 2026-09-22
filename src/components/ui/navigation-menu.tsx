@@ -170,7 +170,7 @@ function NavigationMenuContent({
       data-slot="navigation-menu-content"
       className={[
         "h-full w-auto transition-[opacity,transform,translate] duration-300",
-        "data-starting-style:opacity-0 data-ending-style:opacity-0",
+        "data-ending-style:opacity-0 data-starting-style:opacity-0",
         "data-starting-style:data-[activation-direction=left]:-translate-x-1/2",
         "data-starting-style:data-[activation-direction=right]:translate-x-1/2",
         "data-ending-style:data-[activation-direction=left]:translate-x-1/2",
@@ -203,7 +203,7 @@ function NavigationMenuPositioner({
         <NavigationMenuPrimitive.Popup
           className={[
             "relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin)",
-            "border border-background-200 bg-background-50 text-foreground-800 shadow-lg",
+            "border-background-200 bg-background-50 text-foreground-800 border shadow-lg",
             "transition-[opacity,transform,width,height,scale,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
             "data-starting-style:scale-95 data-starting-style:opacity-0",
             "data-ending-style:scale-95 data-ending-style:opacity-0",
@@ -241,7 +241,7 @@ function NavigationMenuIndicator({
       data-slot="navigation-menu-indicator"
       className="top-full z-1 flex h-1.5 items-end justify-center overflow-hidden"
     >
-      <div className="relative top-[60%] size-2 rotate-45 border-r border-b border-background-200 bg-background-50" />
+      <div className="border-background-200 bg-background-50 relative top-[60%] size-2 rotate-45 border-r border-b" />
     </NavigationMenuPrimitive.Icon>
   );
 }

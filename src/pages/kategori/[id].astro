@@ -4,20 +4,20 @@ import { getCollection } from "astro:content";
 import PostsFeed from "@components/PostsFeed.astro";
 
 export async function getStaticPaths() {
-    const categories = await getCollection("categories");
+  const categories = await getCollection("categories");
 
-    return categories.map((category) => ({
-        params: { id: category.id },
-        props: { category: category },
-    }));
+  return categories.map((category) => ({
+    params: { id: category.id },
+    props: { category: category },
+  }));
 }
 
-const {id} = Astro.params;
+const { id } = Astro.params;
 
 let posts = await getCollection("posts");
 posts = posts.filter((post) => post.data.categories.includes(id));
 ---
 
 <Layout>
-    <PostsFeed posts={posts} />
+  <PostsFeed posts={posts} />
 </Layout>

@@ -3,17 +3,17 @@ import { getCollection, render } from "astro:content";
 import PageLayout from "@layouts/Page.astro";
 
 export async function getStaticPaths() {
-    const posts = await getCollection("posts");
-    const pages = await getCollection("pages");
+  const posts = await getCollection("posts");
+  const pages = await getCollection("pages");
 
-    const content = [...posts, ...pages];
+  const content = [...posts, ...pages];
 
-    // TODO: avoid duplicate ids
+  // TODO: avoid duplicate ids
 
-    return content.map((page) => ({
-        params: { id: page.id },
-        props: { page },
-    }));
+  return content.map((page) => ({
+    params: { id: page.id },
+    props: { page },
+  }));
 }
 
 const { page } = Astro.props;
@@ -21,5 +21,5 @@ const { Content } = await render(page);
 ---
 
 <PageLayout data={page.data}>
-    <Content />
+  <Content />
 </PageLayout>

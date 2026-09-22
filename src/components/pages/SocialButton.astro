@@ -1,25 +1,24 @@
 ---
 interface Props {
-    href: string;
+  href: string;
 }
 
 const { href } = Astro.props;
 ---
 
 <a href={href} class="social-button opacity-75">
-    <slot />
+  <slot />
 </a>
 
 <style>
-    .social-button {
-        &:hover {
-            filter: brightness(0) saturate(100%) invert(63%) sepia(77%)
-                saturate(6276%) hue-rotate(307deg) brightness(90%)
-                contrast(100%);
-        }
-
-        & img {
-            width: 3em;
-        }
+  .social-button {
+    &:hover {
+      filter: brightness(0) saturate(100%) invert(63%) sepia(77%)
+        saturate(6276%) hue-rotate(307deg) brightness(90%) contrast(100%);
     }
+
+    & img {
+      width: 3em;
+    }
+  }
 </style>

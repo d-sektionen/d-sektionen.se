@@ -8,9 +8,9 @@
       "@layouts/*": ["./src/layouts/*"],
       "@lib/*": ["./src/lib/*"],
       "@styles/*": ["./src/styles/*"],
-      "@content/*": ["./src/content/*"],
+      "@content/*": ["./src/content/*"]
     },
     "jsx": "react-jsx",
-    "jsxImportSource": "react",
-  },
+    "jsxImportSource": "react"
+  }
 }
