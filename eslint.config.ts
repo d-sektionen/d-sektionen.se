@@ -14,7 +14,12 @@ import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslintPluginTailwindcss from "eslint-plugin-tailwindcss";
 
 export default defineConfig([
-  globalIgnores(["**/dist/**", "**/src/content/**", "**/.astro/**"]),
+  globalIgnores([
+    "**/dist/**",
+    "**/src/content/**",
+    "**/.astro/**",
+    "package-lock.json",
+  ]),
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     plugins: { js },
