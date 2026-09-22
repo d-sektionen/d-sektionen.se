@@ -22,7 +22,7 @@ export const collections = {
       base: "src/content/posts",
       generateId: (options) => {
         // https://stackoverflow.com/questions/423376/how-to-get-the-file-name-from-a-full-path-using-javascript
-        var filename = options.entry.replace(/^.*[\\/]/, "");
+        const filename = options.entry.replace(/^.*[\\/]/, "");
         return filename.split(".")[0];
       },
     }),
