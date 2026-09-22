@@ -8,16 +8,16 @@ import {
     type SiteNavItem,
 } from "@components/SiteNav";
 
-const navs = await getCollection("nav");
+const pages = await getCollection("pages");
 
 // Entries carrying a `category` are gathered into a dropdown of that name;
 // entries without one stay plain links. Sorting by title keeps the order
 // stable between builds and matches what visitors read.
-const entries = navs
-    .map((nav) => ({
-        href: `/${nav.id}`,
-        title: nav.data.title,
-        category: nav.data.category,
+const entries = pages
+    .map((page) => ({
+        href: `/${page.id}`,
+        title: page.data.title,
+        category: page.data.category,
     }))
     .sort((a, b) => a.title.localeCompare(b.title, "sv"));
 

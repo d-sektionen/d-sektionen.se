@@ -7,10 +7,10 @@ export const CALENDAR_URL =
   "https://calendar.google.com/calendar/ical/c_93a709266d679561caf5bcc20fb621fb0af75dd7d6e78c568b65fec39fc34e3b%40group.calendar.google.com/public/basic.ics";
 
 export const collections = {
-  nav: defineCollection({
+  pages: defineCollection({
     loader: glob({
       pattern: "**/*.{md,mdx}",
-      base: "src/content/nav",
+      base: "src/content/pages",
     }),
     schema: z.object({
       title: z.string(),
@@ -23,6 +23,11 @@ export const collections = {
     loader: glob({
       pattern: "**/*.{md,mdx}",
       base: "src/content/posts",
+      generateId: (options) => {
+        // https://stackoverflow.com/questions/423376/how-to-get-the-file-name-from-a-full-path-using-javascript
+        var filename = options.entry.replace(/^.*[\\/]/, "");
+        return filename.split(".")[0];
+      },
     }),
     schema: z.object({
       title: z.string(),

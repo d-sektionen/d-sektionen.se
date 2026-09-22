@@ -4,13 +4,13 @@ import PageLayout from "@layouts/Page.astro";
 
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
-    const nav = await getCollection("nav");
+    const pages = await getCollection("pages");
 
-    const pages = [...posts, ...nav];
+    const content = [...posts, ...pages];
 
     // TODO: avoid duplicate ids
 
-    return pages.map((page) => ({
+    return content.map((page) => ({
         params: { id: page.id },
         props: { page },
     }));
