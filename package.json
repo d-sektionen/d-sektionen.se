@@ -9,12 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "format": "prettier --write .",
-    "check:astro": "astro check",
-    "check:eslint": "eslint .",
-    "check": "astro check && eslint .",
-    "fix:eslint": "eslint . --fix",
-    "fix": "eslint . --fix",
+    "format": "biome format --write",
+    "check": "biome check",
+    "fix": "biome check --write",
     "astro": "astro"
   },
   "dependencies": {
@@ -45,6 +42,7 @@
     "esbuild": true
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.14",
     "@eslint/css": "^2.0.0",
     "@eslint/js": "^9.39.5",
     "@eslint/json": "^2.1.0",
