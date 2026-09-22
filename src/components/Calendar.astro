@@ -2,7 +2,7 @@
 import { type CalendarEvent } from "@lib/calendar";
 import Event from "./Event.astro";
 import { getCollection } from "astro:content";
-import day from "dayjs";
+import day from "@lib/dayjs";
 
 const events = await getCollection("events");
 
