@@ -1,14 +1,12 @@
 // @ts-check
-import { defineConfig, fontProviders } from "astro/config";
 
-import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
-import { visualizer } from "rollup-plugin-visualizer";
-import pagefind from "astro-pagefind";
-
 import react from "@astrojs/react";
-
 import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, fontProviders } from "astro/config";
+import pagefind from "astro-pagefind";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://astro.build/config
 export default defineConfig({

@@ -1,7 +1,7 @@
 ---
-import { type InferEntrySchema } from "astro:content";
-import day from "@lib/dayjs";
+import type { InferEntrySchema } from "astro:content";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
+import day from "@lib/dayjs";
 import sanitizeHtml from "sanitize-html";
 
 interface Props {
@@ -27,7 +27,7 @@ async function summarize(content: string): Promise<string> {
   let summary = plain.trim().split(/\s+/).slice(0, 50).join(" ");
 
   // Some of the content got cut off
-  if (summary != plain) {
+  if (summary !== plain) {
     summary += " [...]";
   }
 
