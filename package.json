@@ -65,6 +65,7 @@
     "prettier-plugin-astro": "^1.0.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "rollup-plugin-visualizer": "^7.1.1",
+    "tailwind-csstree": "^0.4.0",
     "typescript-eslint": "^8.70.1"
   }
 }

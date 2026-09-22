@@ -12,6 +12,7 @@ import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import eslintPluginReact from "eslint-plugin-react";
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslintPluginTailwindcss from "eslint-plugin-tailwindcss";
+import { tailwind4 } from "tailwind-csstree";
 
 export default defineConfig([
   globalIgnores([
@@ -55,7 +56,14 @@ export default defineConfig([
     files: ["**/*.css"],
     plugins: { css },
     language: "css/css",
+    // Tailwind's `@theme` and `--spacing()` value functions are CSS extensions.
+    languageOptions: { customSyntax: tailwind4 },
     extends: ["css/recommended"],
+    // Tailwind's theme variables come from `@import "tailwindcss"` and `@theme`, so
+    // the linter cannot resolve them; values are still validated.
+    rules: {
+      "css/no-invalid-properties": ["error", { allowUnknownVariables: true }],
+    },
   },
   ...eslintPluginAstro.configs["flat/recommended"],
   {
