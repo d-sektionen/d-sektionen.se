@@ -16,6 +16,7 @@ const { posts } = Astro.props;
 
 const mdProcessor = await createMarkdownProcessor();
 
+// Sort by date
 posts.sort((a, b) => (b.data.date.getTime() - a.data.date.getTime()))
 
 async function summarize(content: string): Promise<string> {
