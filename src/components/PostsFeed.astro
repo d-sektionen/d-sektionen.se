@@ -35,7 +35,7 @@ async function summarize(content: string): Promise<string> {
 ---
 
 <main class="max-w-3xl grid gap-12">
-    {posts.map((post) => (
+    {posts.slice(0,10).map((post) => (
         <a href={`/${post.id}`} class="group overflow-hidden">
             <article>
                 <h2 class="bold text-xl group-hover:underline group-hover:text-primary" >{post.data.title}</h2>
