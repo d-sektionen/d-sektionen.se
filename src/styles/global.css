@@ -9,19 +9,6 @@
 
   --color-staben: #e63e32;
 
-  /*
-     * Neutral ramps, numbered the Tailwind way: 50 is the lightest step,
-     * 950 the darkest. `background-*` is the surface ramp (bg-background-100,
-     * border-background-300, ...), `foreground-*` is the content ramp
-     * (text-foreground-800, ...). They hold the same neutral values today but
-     * are declared separately so the two can diverge later - e.g. an inverted
-     * dark theme - without rewriting any call sites.
-     *
-     * Two steps are pinned to the values they replaced so existing pairings
-     * keep their exact colour: 50 is the old --color-background (#ffffff) and
-     * 800 is the old --color-on-background (#333333), the body text colour.
-     * Everything between follows Tailwind's `neutral` palette.
-     */
   --color-background-50: #ffffff;
   --color-background-100: #f5f5f5;
   --color-background-200: #e5e5e5;
@@ -46,7 +33,7 @@
   --color-foreground-900: #1a1a1a;
   --color-foreground-950: #0a0a0a;
 
-  --color-primary: var(--color-dsek-blue);
+  --color-primary: var(--color-dsek-pink);
   --color-on-primary: var(--color-foreground-50);
 
   --font-rocky-aoe: var(--font-rocky-aoe);

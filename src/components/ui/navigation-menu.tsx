@@ -77,10 +77,10 @@ const triggerLook = [
   "select-none no-underline outline-none",
   "bg-background-50 px-4 py-2 text-sm font-medium text-foreground-800",
   "transition-[color,background-color,box-shadow]",
-  "hover:bg-dsek-pink hover:text-foreground-50",
+  "hover:bg-primary hover:text-foreground-50",
   "focus-visible:bg-background-100 focus-visible:ring-2 focus-visible:ring-primary",
   "disabled:pointer-events-none disabled:opacity-50",
-  "data-popup-open:bg-dsek-pink data-popup-open:text-foreground-50",
+  "data-popup-open:bg-primary data-popup-open:text-foreground-50",
   "data-active:bg-background-100",
 ].join(" ");
 
@@ -88,7 +88,7 @@ const triggerLook = [
 const itemLook = [
   "block select-none py-4 px-8 leading-none no-underline outline-none",
   "text-foreground-800 transition-colors",
-  "hover:bg-dsek-pink hover:text-foreground-50",
+  "hover:bg-primary hover:text-foreground-50",
   "focus-visible:bg-background-100 focus-visible:ring-2 focus-visible:ring-primary",
   "data-active:bg-background-100",
 ].join(" ");
