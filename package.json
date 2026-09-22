@@ -10,7 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "format": "biome format --write",
-    "check": "biome check",
+    "check:biome": "biome check",
+    "check:astro": "astro check",
+    "check": "npm run check:biome && npm run check:astro",
     "fix": "biome check --write",
     "astro": "astro"
   },
