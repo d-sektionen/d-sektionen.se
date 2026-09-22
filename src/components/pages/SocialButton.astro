@@ -6,7 +6,8 @@ interface Props {
 const { href } = Astro.props;
 ---
 
-<a href={href} class="social-button opacity-75">
+<!-- biome-ignore lint/a11y/useAnchorContent: slot provides content from parent -->
+<a href={href} class="social-button opacity-75" aria-label="Social link">
   <slot />
 </a>
 
