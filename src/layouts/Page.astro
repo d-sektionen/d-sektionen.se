@@ -17,26 +17,22 @@ const { data } = Astro.props;
 
 <Layout>
   {data.redirect && (
-    <meta
-      slot="head"
-      http-equiv="refresh"
-      content={`0; url=${data.redirect}`}
-    />
-  )}
+  <meta slot="head" http-equiv="refresh" content={`0; url=${data.redirect}`} />
+)}
 
   <h1 class="text-3xl">{data.title}</h1>
-  <hr />
+  <hr>
   <div class="text-foreground-500 text-sm pb-4">
     {data.date && day(data.date).format("YYYY-MM-DD")}
   </div>
 
   <main>
     {data.redirect && (
-      <div class="text-center">
-        Om du inte skickas vidare automatiskt:{" "}
-        <a href={data.redirect}>Clicka här</a>
-      </div>
-    )}
+  <div class="text-center">
+    Om du inte skickas vidare automatiskt:{" "}
+    <a href={data.redirect}>Clicka här</a>
+  </div>
+)}
 
     <div class="markdown">
       <slot />

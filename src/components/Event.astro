@@ -16,7 +16,9 @@ const end = day(event.end);
   href={`/kalender/${id}`}
   class="flex h-fit gap-4 bg-background-100 p-2 w-70 outline-1 outline-background-300 shadow-sm focus:outline-2 focus:outline-primary"
 >
-  <div class="flex flex-col aspect-square items-center bg-background-200 p-2 justify-between size-22">
+  <div
+    class="flex flex-col aspect-square items-center bg-background-200 p-2 justify-between size-22"
+  >
     <span class="text-sm">{start.format("dddd")}</span>
 
     <span class="text-3xl">{start.format("D")}</span>
@@ -30,13 +32,13 @@ const end = day(event.end);
     </div>
 
     {event.allDay || (
-      <div class="flex justify-end">
-        <div class="text-sm text-foreground-800 bg-background-50 px-2 outline-1 outline-background-200">
-          {start.isSame(end, "day")
-            ? `${start.format("HH:mm")} – ${end.format("HH:mm")}`
-            : `${start.format("YY-MM-DD")} – ${end.format("YY-MM-DD")}`}
-        </div>
-      </div>
-    )}
+  <div class="flex justify-end">
+    <div class="text-sm text-foreground-800 bg-background-50 px-2 outline-1 outline-background-200">
+      {start.isSame(end, "day")
+        ? `${start.format("HH:mm")} – ${end.format("HH:mm")}`
+        : `${start.format("YY-MM-DD")} – ${end.format("YY-MM-DD")}`}
+    </div>
+  </div>
+)}
   </div>
 </a>
