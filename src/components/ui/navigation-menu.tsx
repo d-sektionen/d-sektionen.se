@@ -1,66 +1,6 @@
 /*
  * Navigation menu, built on Base UI and assembled the way shadcn ships its
  * components: one composable part per export and `data-slot` hooks for styling.
- *
- * STYLING - self-contained. Every part owns a single fixed class string and
- * does not accept `className` (the prop is removed from the types, and the
- * fixed `className`/`data-slot` are applied after any spread props so they
- * cannot be overridden at runtime either). `NavigationMenuLink` is the one
- * part with a choice to make, via `variant`:
- *
- *   "item"    (default) - an entry inside a dropdown panel
- *   "trigger"           - a top-level nav-bar item, the same look a
- *                         `NavigationMenuTrigger` has, for a plain link
- *
- * Because class strings are fixed rather than composed, they must never
- * contain two utilities from the same group (e.g. `p-3` next to `px-4`, or
- * `block` next to `inline-flex`). CSS would silently pick a winner by
- * stylesheet order rather than by the order written, so keep each string
- * conflict-free when editing.
- *
- * Two Base UI traits worth knowing before you restyle these:
- *
- * - State is exposed as `data-*` attributes, not Radix's `data-[state=open]`.
- *   The trigger gets `data-popup-open` / `data-pressed` / `data-disabled`, the
- *   popup gets `data-open` / `data-closed` / `data-starting-style` /
- *   `data-ending-style` / `data-instant`, and content gets
- *   `data-activation-direction`. Size and placement arrive as CSS variables:
- *   `--popup-width`, `--popup-height`, `--positioner-width`,
- *   `--positioner-height`, `--available-width` and `--transform-origin`.
- * - Base UI composes via the `render` prop rather than Radix's `asChild`, but
- *   it must be given a *React* element, so it is only useful from a `.tsx`
- *   file (e.g. `<NavigationMenuLink render={<Link href="/docs" />}>` for a
- *   router link). From Astro just pass `href` directly - `NavigationMenuLink`
- *   already renders an `<a>`, and an Astro node passed to `render` is not a
- *   React element and will throw.
- *
- * IMPORTANT for Astro - assemble the whole menu inside one React component.
- *
- * Base UI shares state between these parts through React context, and Astro
- * renders slot children as their own separate React roots. So this does NOT
- * work from a `.astro` file:
- *
- *   <NavigationMenu client:load>
- *     <NavigationMenuList>...</NavigationMenuList>   // ✗ no Root context
- *   </NavigationMenu>
- *
- * It fails at render time with "NavigationMenuRootContext is missing" (and
- * minifies to a bare "Base UI error #41" in a production build). Instead put
- * the whole tree in a single `.tsx` component and mount that as one island,
- * passing serializable data as props:
- *
- *   // src/components/site-nav.tsx
- *   export function SiteNav({ items }: { items: NavItem[] }) {
- *     return <NavigationMenu>{...}</NavigationMenu>;
- *   }
- *
- *   ---
- *   // src/pages/index.astro
- *   <SiteNav client:load items={items} />
- *
- * No `"use client"` is needed - that is a Next.js convention. In Astro the
- * menu becomes interactive only where you add a client directive; without one
- * it still server-renders, but its dropdowns will not open.
  */
 
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu";
