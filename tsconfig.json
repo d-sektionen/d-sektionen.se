@@ -11,6 +11,7 @@
       "@lib/*": ["./src/lib/*"],
       "@pages/*": ["./src/pages/*"],
       "@styles/*": ["./src/styles/*"],
+      "@widgets/*": ["./src/widgets/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
