@@ -4,11 +4,14 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "paths": {
+      "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
+      "@content/*": ["./src/content/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@lib/*": ["./src/lib/*"],
+      "@pages/*": ["./src/pages/*"],
       "@styles/*": ["./src/styles/*"],
-      "@content/*": ["./src/content/*"]
+      "@widgets/*": ["./src/widgets/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
