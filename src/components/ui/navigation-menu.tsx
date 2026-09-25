@@ -5,6 +5,9 @@
 
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu";
 
+/*
+ * Chevron icon from Lucide (https://lucide.dev/icons/chevron-down) - MIT license.
+ */
 const ChevronDownIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
