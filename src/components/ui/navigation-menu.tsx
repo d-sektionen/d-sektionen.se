@@ -19,7 +19,7 @@ const ChevronDownIcon = (props: React.SVGProps<SVGSVGElement>) => (
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    className={props.className}
+    {...props}
   >
     <title>Chevron Down</title>
     <path d="m6 9 6 6 6-6" />
