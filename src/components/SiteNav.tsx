@@ -6,6 +6,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@components/ui/navigation-menu";
+import type { ReactNode } from "react";
 
 /** A single navigable page. */
 export type SiteNavItem = {
@@ -19,27 +20,26 @@ export type SiteNavItem = {
  */
 export type Navigation = (SiteNavItem | [string, SiteNavItem[]])[];
 
+type SiteNavProps = {
+  items: Navigation;
+  leading?: ReactNode;
+};
+
 /**
- * The site's own navigation, composing the Base UI primitives from
- * `@components/ui/navigation-menu`.
+ * Must remain a single React component.
  *
- * This wrapper exists because those primitives cannot be assembled from a
- * `.astro` file. Astro renders slot children as their own separate React
- * roots, so `NavigationMenu.Root`'s context never reaches `List` / `Item` /
- * `Link`, and the render fails with "NavigationMenuRootContext is missing".
- * Keeping the whole tree in one component and passing plain data in as props
- * is what makes it work, so mount it with a client directive:
- *
- *   <SiteNav client:load items={items} />
+ * Astro renders slotted React children as separate roots, preventing
+ * NavigationMenu context from reaching nested primitives. Passing plain
+ * navigation data as props keeps the entire menu within one React tree.
  */
-export function SiteNav({ items }: { items: Navigation }) {
+export function SiteNav({ items, leading }: SiteNavProps) {
   return (
-    // Rendered as a div rather than Base UI's default <nav>: Navbar.astro
-    // already provides the navigation landmark, and nesting a second one
-    // inside it just gives screen readers two unlabelled "navigation"
-    // regions.
+    // Rendered as a div rather than Base UI's default <nav>: Navbar provides
+    // the navigation landmark, and nesting a second one inside it just gives
+    // screen readers two unlabelled "navigation" regions.
     <NavigationMenu render={<div />}>
       <NavigationMenuList>
+        {leading ? <NavigationMenuItem>{leading}</NavigationMenuItem> : null}
         {items.map((item) =>
           Array.isArray(item) ? (
             // A group needs Trigger + Content to become a dropdown.
