@@ -3,8 +3,8 @@ import "@styles/global.css";
 import { Font } from "astro:assets";
 import Calendar from "@components/Calendar.astro";
 import Footer from "@components/Footer.astro";
-import Navbar from "@components/Navbar.astro";
 import Search from "@components/Search.astro";
+import SiteHeader from "@components/SiteHeader.astro";
 import Aside from "@content/aside.mdx";
 ---
 
@@ -30,7 +30,7 @@ import Aside from "@content/aside.mdx";
     <title>Datateknologsektionen vid Linköpings universitet</title>
   </head>
   <body>
-    <Navbar />
+    <SiteHeader />
     <div class="grid px-4 lg:grid-cols-[1fr_38em_1fr] gap-8">
       <aside class="flex flex-col items-center lg:items-end gap-4">
         <Search />

@@ -1,11 +1,12 @@
 ---
+/**
+ * Builds the navigation from the `pages` content collection and passes the
+ * resulting data to `Navbar`, the React component that is hydrated in the
+ * browser.
+ */
 import { getCollection } from "astro:content";
-import {
-  type Navigation,
-  SiteNav,
-  type SiteNavItem,
-} from "@components/SiteNav";
-import LogoDsektionen from "../assets/logo_dsektionen.svg";
+import { Navbar } from "@components/Navbar";
+import type { Navigation, SiteNavItem } from "@components/SiteNav";
 
 const pages = await getCollection("pages");
 
@@ -46,15 +47,4 @@ for (const [category, groupItems] of [...groups].sort(([a], [b]) =>
 items.push(...links);
 ---
 
-<nav
-  class="sticky z-100 top-0 pt-2 mb-2 bg-background-50 w-full flex flex-col items-center shadow-sm"
->
-  <div class="pb-4">
-    <a href="/" aria-label="d-sektionen">
-      <LogoDsektionen />
-    </a>
-  </div>
-  <div class="min-h-9">
-    <SiteNav client:idle items={items} />
-  </div>
-</nav>
+<Navbar client:load items={items} />
