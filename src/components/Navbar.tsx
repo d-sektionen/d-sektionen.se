@@ -49,8 +49,7 @@ export function Navbar({ items }: { items: Navigation }) {
       aria-label="D-sektionens startsida"
       className={[
         "mr-4 hidden h-9 items-center md:flex",
-        "motion-safe:transition-[opacity,visibility] duration-200 ease-out",
-        pinned ? "visible opacity-100" : "invisible opacity-0",
+        pinned ? "visible" : "invisible",
       ].join(" ")}
     >
       <img
