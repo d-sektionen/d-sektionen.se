@@ -1,0 +1,39 @@
+name: Update Submodule
+
+on:
+  repository_dispatch:
+    types: [submodule-updated]
+  workflow_dispatch:
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update submodule
+        run: |
+          git submodule update --remote --recursive
+
+      - name: Commit and push
+        run: |
+          if git diff --quiet; then
+            echo "No submodule updates found. Nothing to do."
+            exit 0
+          fi
+
+          git add -A
+          git commit -m "chore: bump submodule"
+          git push origin HEAD:${{ github.ref_name }}
