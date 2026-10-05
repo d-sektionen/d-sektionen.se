@@ -5,8 +5,13 @@
  * browser.
  */
 import { getCollection } from "astro:content";
+import LogoDsektionen from "@assets/logo_dsektionen.svg";
 import { Navbar } from "@components/Navbar";
-import type { Navigation, SiteNavItem } from "@components/SiteNav";
+import {
+  type Navigation,
+  SiteNav,
+  type SiteNavItem,
+} from "@components/SiteNav";
 
 const pages = await getCollection("pages");
 
