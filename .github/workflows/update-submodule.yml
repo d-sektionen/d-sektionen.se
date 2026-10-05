@@ -20,16 +20,16 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Configure Git
+      - name: "Configure Git"
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Update submodule
+      - name: "Update submodule"
         run: |
           git submodule update --remote --recursive
 
-      - name: Commit and push
+      - name: "Commit and push"
         run: |
           if git diff --quiet; then
             echo "No submodule updates found. Nothing to do."
