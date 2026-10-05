@@ -8,6 +8,9 @@ on:
 jobs:
   bump:
     runs-on: ubuntu-latest
+    concurrency:
+      group: update-submodule
+      cancel-in-progress: false
     permissions:
       contents: write
 
