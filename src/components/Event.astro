@@ -11,11 +11,9 @@ interface Props {
 const { link } = Astro.props;
 ---
 
-{
-  link ?
-    <a href={link} target="_blank" >
+{link ?
+    <a href={link} rel="noopener" target="_blank" >
       <EventBody {...Astro.props}/>
     </a>
   :
-    <EventBody {...Astro.props}/>
-}
+    <EventBody {...Astro.props}/>}
