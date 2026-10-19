@@ -5,6 +5,11 @@ import day from "@lib/dayjs";
 import Event from "./Event.astro";
 
 const events = await getCollection("events");
+events.sort(
+  (a, b) =>
+    a.data.start.getTime() - b.data.start.getTime() ||
+    a.data.uid.localeCompare(b.data.uid),
+);
 
 const selectedEvents: { id: string; event: CalendarEvent }[] = [];
 
