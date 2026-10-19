@@ -11,7 +11,11 @@ events.sort(
     a.data.uid.localeCompare(b.data.uid),
 );
 
-const selectedEvents: { id: string; event: CalendarEvent }[] = [];
+const selectedEvents: {
+  id: string;
+  event: CalendarEvent;
+  link: string | null;
+}[] = [];
 
 for (const event of events) {
   if (selectedEvents.length >= 10) {
@@ -23,13 +27,20 @@ for (const event of events) {
     continue;
   }
 
+  const description = event.data.description?.trim();
+  let link = null;
+  if (description?.startsWith("http")) {
+    link = description;
+  }
+
   selectedEvents.push({
     id: event.id,
     event: event.data,
+    link,
   });
 }
 ---
 
 {selectedEvents
   .slice(0, 10)
-  .map(({ id, event }) => <Event id={id} event={event} />)}
+  .map(({ id, event, link }) => <Event id={id} event={event}, link={link} />)}
