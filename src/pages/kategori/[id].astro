@@ -1,23 +1,35 @@
 ---
 import { getCollection } from "astro:content";
-import PostsFeed from "@components/PostsFeed.astro";
+import PostsFeed from "@components/posts-feed/PostsFeed.astro";
 import Layout from "@layouts/Layout.astro";
+import {
+  getCategoryFeedPaths,
+  getCategoryPosts,
+  getPostFeedPage,
+  type PostFeedPage,
+} from "@lib/posts";
 
 export async function getStaticPaths() {
-  const categories = await getCollection("categories");
+  const [categories, posts] = await Promise.all([
+    getCollection("categories"),
+    getCollection("posts"),
+  ]);
 
   return categories.map((category) => ({
     params: { id: category.id },
-    props: { category: category },
+    props: getPostFeedPage(
+      getCategoryPosts(posts, category.id),
+      1,
+      getCategoryFeedPaths(category.id),
+    ),
   }));
 }
 
-const { id } = Astro.params;
+type Props = PostFeedPage;
 
-let posts = await getCollection("posts");
-posts = posts.filter((post) => post.data.categories.includes(id));
+const { posts, pagination } = Astro.props;
 ---
 
 <Layout>
-  <PostsFeed posts={posts} />
+  <PostsFeed posts={posts} pagination={pagination} />
 </Layout>
