@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import PostsFeed from "@components/posts-feed/PostsFeed.astro";
+import Layout from "@layouts/Layout.astro";
+import {
+  getPaginatedStaticPaths,
+  getPostFeedPages,
+  type PostFeedPage,
+} from "@lib/posts";
+
+export async function getStaticPaths() {
+  const pages = getPostFeedPages(await getCollection("posts"), {
+    pagePath: "/page",
+    firstPagePath: "/",
+  });
+
+  return getPaginatedStaticPaths(pages, (currentPage) => ({
+    page: currentPage.toString(),
+  }));
+}
+
+type Props = PostFeedPage;
+
+const { posts, pagination } = Astro.props;
+---
+
+<Layout>
+  <PostsFeed posts={posts} pagination={pagination} />
+</Layout>

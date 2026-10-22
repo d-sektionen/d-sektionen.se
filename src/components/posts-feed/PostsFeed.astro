@@ -1,23 +1,30 @@
 ---
-import type { InferEntrySchema } from "astro:content";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import day from "@lib/dayjs";
+import {
+  type Pagination,
+  POSTS_PER_PAGE,
+  type Post,
+  sortPosts,
+} from "@lib/posts";
 import sanitizeHtml from "sanitize-html";
+import PaginationControls from "./Pagination.astro";
 
 interface Props {
-  posts: {
-    id: string;
-    body?: string;
-    data: InferEntrySchema<"posts">;
-  }[];
+  posts: Post[];
+  pagination?: Pagination;
 }
 
-const { posts } = Astro.props;
+const { posts, pagination } = Astro.props;
 
 const mdProcessor = await createMarkdownProcessor();
 
-// Sort by date
-posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const sortedPosts = sortPosts(posts);
+// Without pagination metadata, keep the old behaviour of showing only the
+// latest posts instead of every post in the collection.
+const visiblePosts = pagination
+  ? sortedPosts
+  : sortedPosts.slice(0, POSTS_PER_PAGE);
 
 async function summarize(content: string): Promise<string> {
   let render = await mdProcessor.render(content);
@@ -36,7 +43,7 @@ async function summarize(content: string): Promise<string> {
 ---
 
 <main class="max-w-3xl grid gap-12">
-  {posts.slice(0, 10).map((post) => (
+  {visiblePosts.map((post) => (
   <a href={`/${post.id}`} class="group overflow-hidden">
     <article>
       <h2 class="bold text-xl group-hover:underline group-hover:text-primary">
@@ -52,4 +59,6 @@ async function summarize(content: string): Promise<string> {
     </article>
   </a>
 ))}
+
+  {pagination && <PaginationControls pagination={pagination} />}
 </main>
