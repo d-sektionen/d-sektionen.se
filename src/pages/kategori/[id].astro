@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import PostsFeed from "@components/posts-feed/PostsFeed.astro";
 import Layout from "@layouts/Layout.astro";
 import {
-  getCategoryFeedPaths,
   getCategoryPosts,
   getPostFeedPage,
   type PostFeedPage,
@@ -17,11 +16,10 @@ export async function getStaticPaths() {
 
   return categories.map((category) => ({
     params: { id: category.id },
-    props: getPostFeedPage(
-      getCategoryPosts(posts, category.id),
-      1,
-      getCategoryFeedPaths(category.id),
-    ),
+    props: getPostFeedPage(getCategoryPosts(posts, category.id), 1, {
+      pagePath: `/kategori/${category.id}/page`,
+      firstPagePath: `/kategori/${category.id}`,
+    }),
   }));
 }
 
