@@ -11,7 +11,7 @@ git submodule update --init --recursive
 npm ci
 ```
 
-- `src/content` is a git submodule pointing at `d-sektionen/d-sektionen.se-content`. It is empty until initialized; without it the content collections are empty and `@content/*` imports used by `Layout.astro` (for example `@content/aside.mdx`) fail.
+- `src/content` is a git submodule pointing at `d-sektionen/d-sektionen.se-content`. Initialize it for a meaningful check and build — an empty submodule leaves the file-based collections empty, and `astro check` can still exit 0 (see the Content model caveat below).
 - `node_modules/`, `dist/`, and `.astro/` are gitignored, so installing or building does not dirty `git status`.
 
 ## Commands
@@ -28,7 +28,7 @@ npm ci
 
 There is no test suite. Validate changes with `npm run check` and, when relevant, `npm run build`.
 
-`astro check` needs `@astrojs/check` and `typescript` (both installed), an initialized content submodule, and network access: the `events` loader fetches the live Google Calendar during content sync, so an unreachable feed fails the check. It has no auto-fix option; use `npm run fix` for Biome findings.
+`astro check` needs `@astrojs/check` and `typescript` (both installed) plus network access: the `events` loader fetches the live Google Calendar during content sync, so an unreachable feed fails the check. The content submodule is not required for `astro check` to exit 0, but an empty submodule means no submodule content is checked — initialize the submodule for a meaningful check. It has no auto-fix option; use `npm run fix` for Biome findings.
 
 By default `astro check` exits 0 on `ts(6133)` unused-local/prop hints, so dead props do not fail CI. Add `--minimumFailingSeverity hint` if you want hints to be fatal.
 
@@ -62,7 +62,7 @@ Important constraints:
 - All-day events are normalized to UTC midnight so the calendar date stays stable across time zones; format them in UTC.
 - Recurring events (`RRULE`) are not expanded by `parseCalendar`. The live feed currently contains none, but a recurring event added to the calendar needs expansion handling.
 - `.gitmodules` tracks the content repo on branch `master`. `git submodule update --remote` moves the gitlink to the tip of `master`; commit that change if it is intentional, otherwise it appears as an unstaged `src/content` change.
-- With an empty submodule, checks can still pass while validating no content (a file-loader error for `src/content/posts/categories.json` appears in the log). Confirm the submodule is initialized before trusting a green check.
+- With an empty submodule, `astro check` can still exit 0 while validating no submodule content (a file-loader error for `src/content/posts/categories.json` appears in the log). `npm run build` does fail in that state, on unresolved `@content/*` imports such as `@content/aside.mdx`. Initialize the submodule for a meaningful check, and use `npm run build` to catch missing-content and import failures.
 
 ## Path aliases and module resolution
 
