@@ -78,7 +78,7 @@ export function Navbar({ items }: { items: Navigation }) {
         </a>
       </div>
 
-      <nav className="sticky top-0 z-100 mb-2 flex w-full flex-col items-center bg-background-50 shadow-sm">
+      <nav className="sm:sticky top-0 z-100 mb-2 flex w-full flex-col items-center bg-background-50 shadow-sm">
         <SiteNav items={items} leading={compactLogo} />
       </nav>
     </>
