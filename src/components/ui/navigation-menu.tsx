@@ -85,7 +85,7 @@ function NavigationMenuList({
     <NavigationMenuPrimitive.List
       {...props}
       data-slot="navigation-menu-list"
-      className="flex flex-1 list-none items-center justify-center gap-1"
+      className="flex flex-1 flex-wrap list-none items-center justify-center gap-1"
     />
   );
 }
@@ -156,7 +156,7 @@ function NavigationMenuPositioner({
         align={align}
         alignOffset={alignOffset}
         className={[
-          "isolate z-50 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)",
+          "isolate z-100 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)",
           "transition-[top,left,right,bottom] duration-300 data-instant:transition-none",
         ].join(" ")}
       >
