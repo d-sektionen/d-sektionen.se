@@ -11,7 +11,7 @@ git submodule update --init --recursive
 npm ci
 ```
 
-- `src/content` is a git submodule pointing at `d-sektionen/d-sektionen.se-content`. Initialize it for a meaningful check and build — an empty submodule leaves the file-based collections empty, and `astro check` can still exit 0 (see the Content model caveat below).
+- `src/content` is a git submodule pointing at `d-sektionen/d-sektionen.se-content`. Initialize it before checking or building — an empty submodule makes `astro check` fail because the legacy redirect loader cannot read its JSON file, and `npm run build` also fails on unresolved `@content/*` imports (see the Content model caveat below).
 - `node_modules/`, `dist/`, and `.astro/` are gitignored, so installing or building does not dirty `git status`.
 
 ## Commands
@@ -53,6 +53,7 @@ Collections are defined in `src/content.config.ts`:
 - `posts` — `src/content/posts`, with IDs derived from the filename.
 - `categories` — `src/content/posts/categories.json`.
 - `events` — a custom loader, `eventsLoader` in `src/lib/calendar.ts`, which parses the public Google Calendar iCal feed at build time.
+- `legacyRedirects` — `src/content/legacy-redirects.json`, read by `legacyRedirectsLoader` in `src/lib/legacy-redirects.ts`; each entry becomes a static redirect page under its old path via `src/pages/[...legacy].astro`.
 
 Important constraints:
 
@@ -62,7 +63,8 @@ Important constraints:
 - All-day events are normalized to UTC midnight so the calendar date stays stable across time zones; format them in UTC.
 - Recurring events (`RRULE`) are not expanded by `parseCalendar`. The live feed currently contains none, but a recurring event added to the calendar needs expansion handling.
 - `.gitmodules` tracks the content repo on branch `master`. `git submodule update --remote` moves the gitlink to the tip of `master`; commit that change if it is intentional, otherwise it appears as an unstaged `src/content` change.
-- With an empty submodule, `astro check` can still exit 0 while validating no submodule content (a file-loader error for `src/content/posts/categories.json` appears in the log). `npm run build` does fail in that state, on unresolved `@content/*` imports such as `@content/aside.mdx`. Initialize the submodule for a meaningful check, and use `npm run build` to catch missing-content and import failures.
+- Legacy redirect pages are old WordPress URLs (`/wp-content/...`) that should keep working. Each is built with `<meta name="robots" content="noindex">` and a `canonical` pointing at its new location. `@astrojs/sitemap` filters every redirect path out in `astro.config.ts`, because a sitemap must only list canonical, indexable URLs.
+- With an empty submodule, `astro check` fails: `legacyRedirectsLoader` reads `src/content/legacy-redirects.json` unconditionally and throws when the file is missing (the `categories` file loader also logs an error for `src/content/posts/categories.json`). `npm run build` additionally fails on unresolved `@content/*` imports such as `@content/aside.mdx`. Initialize the submodule before running checks or builds, and use `npm run build` to catch missing-content and import failures.
 
 ## Path aliases and module resolution
 
