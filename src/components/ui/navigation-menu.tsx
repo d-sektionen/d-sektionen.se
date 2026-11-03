@@ -156,7 +156,7 @@ function NavigationMenuPositioner({
         align={align}
         alignOffset={alignOffset}
         className={[
-          "isolate z-100 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)",
+          "isolate z-110 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)",
           "transition-[top,left,right,bottom] duration-300 data-instant:transition-none",
         ].join(" ")}
       >
