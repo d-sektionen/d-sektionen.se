@@ -1,0 +1,80 @@
+---
+import { type Pagination, paginationUrl } from "@lib/posts";
+
+interface Props {
+  pagination: Pagination;
+}
+
+const { pagination } = Astro.props;
+const { currentPage, lastPage } = pagination;
+
+const firstHref = currentPage > 1 ? paginationUrl(pagination, 1) : undefined;
+const previousHref =
+  currentPage > 1 ? paginationUrl(pagination, currentPage - 1) : undefined;
+const nextHref =
+  currentPage < lastPage
+    ? paginationUrl(pagination, currentPage + 1)
+    : undefined;
+const lastHref =
+  currentPage < lastPage ? paginationUrl(pagination, lastPage) : undefined;
+---
+
+{lastPage > 1 && (
+  <nav
+    aria-label="Paginering"
+    class="flex w-full flex-col items-center gap-3 text-sm sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4"
+  >
+    <span
+      class="order-first text-center text-foreground-500 sm:order-none sm:col-start-2 sm:row-start-1"
+      aria-current="page"
+    >
+      Sida {currentPage} av {lastPage}
+    </span>
+
+    {(firstHref || previousHref) && (
+      <div class="flex items-center gap-4 sm:col-start-1 sm:row-start-1 sm:justify-start">
+        {firstHref && (
+          <a
+            href={firstHref}
+            rel="first"
+            class="hover:text-primary hover:underline"
+          >
+            « Första
+          </a>
+        )}
+        {previousHref && (
+          <a
+            href={previousHref}
+            rel="prev"
+            class="hover:text-primary hover:underline"
+          >
+            ← Föregående
+          </a>
+        )}
+      </div>
+    )}
+
+    {(nextHref || lastHref) && (
+      <div class="flex items-center gap-4 sm:col-start-3 sm:row-start-1 sm:justify-end">
+        {nextHref && (
+          <a
+            href={nextHref}
+            rel="next"
+            class="hover:text-primary hover:underline"
+          >
+            Nästa →
+          </a>
+        )}
+        {lastHref && (
+          <a
+            href={lastHref}
+            rel="last"
+            class="hover:text-primary hover:underline"
+          >
+            Sista »
+          </a>
+        )}
+      </div>
+    )}
+  </nav>
+)}

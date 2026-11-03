@@ -1,11 +1,12 @@
 ---
 import { getCollection } from "astro:content";
-import PostsFeed from "@components/PostsFeed.astro";
+import PostsFeed from "@components/posts-feed/PostsFeed.astro";
 import Layout from "@layouts/Layout.astro";
+import { getPostFeedPage, HOME_FEED_PATHS } from "@lib/posts";
 
-const posts = await getCollection("posts");
+const page = getPostFeedPage(await getCollection("posts"), 1, HOME_FEED_PATHS);
 ---
 
 <Layout>
-  <PostsFeed posts={posts} />
+  <PostsFeed posts={page.posts} pagination={page.pagination} />
 </Layout>

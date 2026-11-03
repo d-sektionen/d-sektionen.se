@@ -12,7 +12,7 @@ export const collections = {
     schema: z.object({
       title: z.string(),
       category: z.string().optional(),
-      redirect: z.url().optional(),
+      redirect: z.string().optional(),
     }),
   }),
 

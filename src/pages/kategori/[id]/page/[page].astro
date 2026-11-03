@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import PostsFeed from "@components/posts-feed/PostsFeed.astro";
+import Layout from "@layouts/Layout.astro";
+import {
+  getCategoryPosts,
+  getPaginatedStaticPaths,
+  getPostFeedPages,
+  type PostFeedPage,
+} from "@lib/posts";
+
+export async function getStaticPaths() {
+  const [categories, posts] = await Promise.all([
+    getCollection("categories"),
+    getCollection("posts"),
+  ]);
+
+  return categories.flatMap((category) =>
+    getPaginatedStaticPaths(
+      getPostFeedPages(getCategoryPosts(posts, category.id), {
+        pagePath: `/kategori/${category.id}/page`,
+        firstPagePath: `/kategori/${category.id}`,
+      }),
+      (currentPage) => ({ id: category.id, page: currentPage.toString() }),
+    ),
+  );
+}
+
+type Props = PostFeedPage;
+
+const { posts, pagination } = Astro.props;
+---
+
+<Layout>
+  <PostsFeed posts={posts} pagination={pagination} />
+</Layout>
