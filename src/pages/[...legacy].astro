@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import { decodeLegacyPath } from "@lib/legacy-redirects-data";
+
+export async function getStaticPaths() {
+  const redirects = await getCollection("legacyRedirects");
+
+  return redirects.map((redirect) => ({
+    params: { legacy: decodeLegacyPath(redirect.id) },
+    props: { destination: redirect.data.to },
+  }));
+}
+
+const { destination } = Astro.props;
+const target = new URL(destination, Astro.site ?? Astro.url).href;
+---
+
+<Layout pagefind={false}>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content={`0; url=${target}`}>
+    <link rel="canonical" href={target}>
+  </Fragment>
+
+  <div class="text-center">
+    Om du inte skickas vidare automatiskt:{" "}
+    <a href={target}>Clicka här</a>
+  </div>
+</Layout>
