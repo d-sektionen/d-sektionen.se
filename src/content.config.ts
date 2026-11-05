@@ -15,6 +15,7 @@ export const collections = {
       title: z.string(),
       category: z.string().optional(),
       redirect: z.string().optional(),
+      sidebar: z.number().int().optional(),
     }),
   }),
 
