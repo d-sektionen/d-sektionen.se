@@ -1,7 +1,7 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import CalendarWidget from "@components/CalendarWidget";
 import { getCollection } from "astro:content";
+import CalendarWidget from "@components/CalendarWidget";
+import Layout from "@layouts/Layout.astro";
 import type { CalendarEvent } from "@lib/calendar";
 
 const events = await getCollection("events");
@@ -17,8 +17,10 @@ const selectedEvents: { id: string; event: CalendarEvent }[] = [];
 for (const event of events) {
   selectedEvents.push({ id: event.id, event: event.data });
 }
+
+const serverDate = new Date().toISOString();
 ---
 
 <Layout>
-  <CalendarWidget client:load events={selectedEvents} />
+  <CalendarWidget client:load events={selectedEvents} serverDate={serverDate} />
 </Layout>

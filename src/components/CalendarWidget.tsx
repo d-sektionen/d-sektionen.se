@@ -1,6 +1,9 @@
 import type { CalendarEvent } from "@lib/calendar";
 import dayjs from "dayjs";
-import { useState } from "react";
+import utc from "dayjs/plugin/utc";
+import { useEffect, useState } from "react";
+
+dayjs.extend(utc);
 
 const WEEKDAYS = [
   "Måndag",
@@ -31,6 +34,7 @@ type CalendarProps = {
     id: string;
     event: CalendarEvent;
   }[];
+  serverDate: string;
 };
 
 function getCalendarDays(year: number, month: number) {
@@ -43,7 +47,8 @@ function getCalendarDays(year: number, month: number) {
 }
 
 type EventItem = { id: string; event: CalendarEvent };
-const dayKey = (date: Date | string) => dayjs(date).format("YYYY-MM-DD");
+const dayKey = (date: Date | string) => dayjs.utc(date).format("YYYY-MM-DD");
+const localKey = (date: Date) => dayjs(date).format("YYYY-MM-DD");
 
 function getEventsByDay(events: EventItem[], dates: Date[]) {
   const byDay = new Map<string, EventItem[]>();
@@ -67,24 +72,40 @@ function getShortTitle(title: string, maxLength: number = 30) {
   return `${truncated}...`;
 }
 
-export default function Calendar({ events }: CalendarProps) {
-  const today = new Date();
-  const [currentMonth, setCurrentMonth] = useState(() => {
-    return new Date(today.getFullYear(), today.getMonth(), 1);
-  });
+export default function Calendar({ events, serverDate }: CalendarProps) {
+  // serverDate: ISO string, identical on server and client
+  const [today, setToday] = useState(() => dayjs(serverDate));
+  const [currentMonth, setCurrentMonth] = useState(() =>
+    dayjs(serverDate).startOf("month"),
+  );
 
-  const year = currentMonth.getFullYear();
-  const month = currentMonth.getMonth();
+  useEffect(() => {
+    const now = dayjs();
+    if (now.isSame(today, "day")) return; // same day: skip, no state change
+
+    console.log(`Setting today to ${now}`);
+    setToday(now);
+    if (!now.isSame(currentMonth, "month")) {
+      setCurrentMonth(now.startOf("month"));
+    }
+  }, [currentMonth, today]);
+
+  const year = currentMonth.get("year");
+  const month = currentMonth.get("month");
 
   function changeMonth(amount: number) {
-    console.log(amount);
-    setCurrentMonth(new Date(year, month + amount, 1));
+    const newCurrentMonth = new Date(year, month + amount, 1);
+    setCurrentMonth(dayjs(newCurrentMonth));
   }
 
   const dates = getCalendarDays(year, month);
   const eventsByDay = getEventsByDay(events, dates);
 
-  const header = WEEKDAYS.map((day) => <div className="border p-2">{day}</div>);
+  const header = WEEKDAYS.map((day) => (
+    <div key={day} className="border p-2">
+      {day}
+    </div>
+  ));
 
   return (
     <div>
@@ -117,9 +138,10 @@ export default function Calendar({ events }: CalendarProps) {
 
           return (
             <div
+              key={localKey(date)}
               className={`border p-2 pb-4 min-h-26 ${dateIsToday ? "bg-dsek-yellow/20" : ""}`}
             >
-              {date.getMonth() == month ? (
+              {date.getMonth() === month ? (
                 <div>{date.getDate()}</div>
               ) : (
                 <div className="text-foreground-400">{date.getDate()}</div>
