@@ -1,9 +1,11 @@
 import { defineCollection } from "astro:content";
 import { eventsLoader } from "@lib/calendar";
+import { legacyRedirectsLoader } from "@lib/legacy-redirects";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 export const collections = {
+  // Pages such as /staben
   pages: defineCollection({
     loader: glob({
       pattern: "**/*.{md,mdx}",
@@ -12,10 +14,11 @@ export const collections = {
     schema: z.object({
       title: z.string(),
       category: z.string().optional(),
-      redirect: z.url().optional(),
+      redirect: z.string().optional(),
     }),
   }),
 
+  // Posts that are in the news feed
   posts: defineCollection({
     loader: glob({
       pattern: "**/*.{md,mdx}",
@@ -33,6 +36,7 @@ export const collections = {
     }),
   }),
 
+  // Categories such as alumni bloggen
   categories: defineCollection({
     loader: file("src/content/posts/categories.json"),
     schema: z.object({
@@ -42,7 +46,13 @@ export const collections = {
     }),
   }),
 
+  // Events from google calendar
   events: defineCollection({
     loader: eventsLoader({}),
+  }),
+
+  // Old WordPress paths that should redirect to their new location
+  legacyRedirects: defineCollection({
+    loader: legacyRedirectsLoader(),
   }),
 };

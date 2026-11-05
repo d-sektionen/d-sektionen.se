@@ -6,6 +6,13 @@ import Footer from "@components/Footer.astro";
 import Search from "@components/Search.astro";
 import SiteHeader from "@components/SiteHeader.astro";
 import Aside from "@content/aside.mdx";
+
+interface Props {
+  /** Set to false for pages that should stay out of the Pagefind index. */
+  pagefind?: boolean;
+}
+
+const { pagefind = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -36,7 +43,7 @@ import Aside from "@content/aside.mdx";
         <Search />
         <Calendar />
       </aside>
-      <div>
+      <div data-pagefind-body={pagefind ? "" : undefined}>
         <slot />
       </div>
       <aside class="flex flex-col items-center lg:items-start gap-4">
