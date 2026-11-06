@@ -12,7 +12,8 @@
       "@pages/*": ["./src/pages/*"],
       "@styles/*": ["./src/styles/*"],
       "@widgets/*": ["./src/widgets/*"],
-      "@widgets": ["./src/widgets"]
+      "@widgets": ["./src/widgets"],
+      "@pages-images/*": ["./src/content/pages/images"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
