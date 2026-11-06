@@ -13,7 +13,7 @@
       "@styles/*": ["./src/styles/*"],
       "@widgets/*": ["./src/widgets/*"],
       "@widgets": ["./src/widgets"],
-      "@pages-images/*": ["./src/content/posts/images"]
+      "@posts-images/*": ["./src/content/posts/images/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
