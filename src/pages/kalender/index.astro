@@ -22,5 +22,5 @@ const serverDate = new Date().toISOString();
 ---
 
 <Layout>
-  <CalendarWidget client:load events={selectedEvents} serverDate={serverDate} />
+  <CalendarWidget client:only="react" events={selectedEvents} />
 </Layout>

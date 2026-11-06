@@ -1,9 +1,14 @@
 import type { CalendarEvent } from "@lib/calendar";
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useEffect, useState } from "react";
 
 dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const CALENDAR_TZ = "Europe/Stockholm";
+const DATE_FORMAT = "YYYY-MM-DD";
 
 const WEEKDAYS = [
   "Måndag",
@@ -34,23 +39,34 @@ type CalendarProps = {
     id: string;
     event: CalendarEvent;
   }[];
-  serverDate: string;
 };
 
-function getCalendarDays(year: number, month: number) {
-  const firstDate = new Date(year, month, 1);
-  const offset = (firstDate.getDay() + 6) % 7;
+export function getCalendarDays(year: number, month: number): Date[] {
+  const firstDate = new Date(Date.UTC(year, month, 1));
+  const offset = (firstDate.getUTCDay() + 6) % 7;
 
-  return Array.from({ length: 42 }, (_, index) => {
-    return new Date(year, month, index - offset + 1);
+  const daysInMonth = dayjs.utc(firstDate).daysInMonth();
+  const weeksToDisplay = Math.floor((offset + daysInMonth - 1) / 7) + 1;
+
+  return Array.from({ length: weeksToDisplay * 7 }, (_, index) => {
+    return new Date(Date.UTC(year, month, index - offset + 1));
   });
 }
 
 type EventItem = { id: string; event: CalendarEvent };
-const dayKey = (date: Date | string) => dayjs.utc(date).format("YYYY-MM-DD");
-const localKey = (date: Date) => dayjs(date).format("YYYY-MM-DD");
 
-function getEventsByDay(events: EventItem[], dates: Date[]) {
+function eventDayKey(date: Date, allDay: boolean): string {
+  return allDay
+    ? dayjs.utc(date).format(DATE_FORMAT)
+    : dayjs(date).tz(CALENDAR_TZ).format(DATE_FORMAT);
+}
+
+const dayKey = (date: Date): string => dayjs.utc(date).format(DATE_FORMAT);
+
+export function getEventsByDay(
+  events: EventItem[],
+  dates: Date[],
+): Map<string, EventItem[]> {
   const byDay = new Map<string, EventItem[]>();
 
   // Only include days that are actually shown in the grid
@@ -59,24 +75,33 @@ function getEventsByDay(events: EventItem[], dates: Date[]) {
   }
 
   for (const item of events) {
-    byDay.get(dayKey(item.event.start))?.push(item);
+    const { start, end, allDay } = item.event;
+    const firstDay = eventDayKey(start, allDay);
+
+    const lastInstant = new Date(Math.max(start.getTime(), end.getTime() - 1));
+    const lastDay = eventDayKey(lastInstant, allDay);
+
+    for (const [date, dayEvents] of byDay) {
+      if (date >= firstDay && date <= lastDay) dayEvents.push(item);
+    }
   }
 
   return byDay;
 }
 
-function getShortTitle(title: string, maxLength: number = 30) {
+function getShortTitle(title: string, maxLength: number = 30): string {
   if (title.length <= maxLength) return title;
 
-  const truncated = title.substring(0, maxLength);
-  return `${truncated}...`;
+  const truncationSuffix = "...";
+  const truncated = title.substring(0, maxLength - truncationSuffix.length);
+  return `${truncated}${truncationSuffix}`;
 }
 
-export default function Calendar({ events, serverDate }: CalendarProps) {
+export default function Calendar({ events }: CalendarProps) {
   // serverDate: ISO string, identical on server and client
-  const [today, setToday] = useState(() => dayjs(serverDate));
+  const [today, setToday] = useState(() => dayjs().tz(CALENDAR_TZ));
   const [currentMonth, setCurrentMonth] = useState(() =>
-    dayjs(serverDate).startOf("month"),
+    dayjs().tz(CALENDAR_TZ).startOf("month"),
   );
 
   useEffect(() => {
@@ -90,13 +115,12 @@ export default function Calendar({ events, serverDate }: CalendarProps) {
     }
   }, [currentMonth, today]);
 
-  const year = currentMonth.get("year");
-  const month = currentMonth.get("month");
-
   function changeMonth(amount: number) {
-    const newCurrentMonth = new Date(year, month + amount, 1);
-    setCurrentMonth(dayjs(newCurrentMonth));
+    setCurrentMonth(currentMonth.add(amount, "month"));
   }
+
+  const year = currentMonth.year();
+  const month = currentMonth.month();
 
   const dates = getCalendarDays(year, month);
   const eventsByDay = getEventsByDay(events, dates);
@@ -138,13 +162,13 @@ export default function Calendar({ events, serverDate }: CalendarProps) {
 
           return (
             <div
-              key={localKey(date)}
+              key={dayKey(date)}
               className={`border p-2 pb-4 min-h-26 ${dateIsToday ? "bg-dsek-yellow/20" : ""}`}
             >
-              {date.getMonth() === month ? (
-                <div>{date.getDate()}</div>
+              {date.getUTCMonth() === month ? (
+                <div>{date.getUTCDate()}</div>
               ) : (
-                <div className="text-foreground-400">{date.getDate()}</div>
+                <div className="text-foreground-400">{date.getUTCDate()}</div>
               )}
               {dayEvents.map(({ id, event }) => (
                 <div
