@@ -13,7 +13,9 @@
       "@styles/*": ["./src/styles/*"],
       "@widgets/*": ["./src/widgets/*"],
       "@widgets": ["./src/widgets"],
-      "@posts-images/*": ["./src/content/posts/images/*"]
+      "@posts-images/*": ["./src/content/posts/images/*"],
+      "@pages-images/*": ["./src/content/pages/images/*"],
+      "@unlisted-pages-images/*": ["./src/content/unlisted-pages/images/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
