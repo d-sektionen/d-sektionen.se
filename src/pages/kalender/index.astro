@@ -17,8 +17,6 @@ const selectedEvents: { id: string; event: CalendarEvent }[] = [];
 for (const event of events) {
   selectedEvents.push({ id: event.id, event: event.data });
 }
-
-const serverDate = new Date().toISOString();
 ---
 
 <Layout>

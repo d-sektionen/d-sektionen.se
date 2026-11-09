@@ -97,42 +97,181 @@ function getShortTitle(title: string, maxLength: number = 30): string {
   return `${truncated}${truncationSuffix}`;
 }
 
+type WeekEventSegment = {
+  id: string;
+  event: CalendarEvent;
+  startColumn: number;
+  endColumn: number;
+  lane: number;
+  continuesBefore: boolean;
+  continuesAfter: boolean;
+};
+
+function getWeekEventSegments(
+  events: EventItem[],
+  weekDates: Date[],
+): WeekEventSegment[] {
+  const weekStart = dayKey(weekDates[0]);
+  const weekEnd = dayKey(weekDates[6]);
+
+  // Find events that overlap the displayed week.
+  const segments = events.flatMap(({ id, event }) => {
+    const firstDay = eventDayKey(event.start, event.allDay);
+
+    // The event's end is exclusive, so subtract one millisecond.
+    const lastInstant = new Date(
+      Math.max(event.start.getTime(), event.end.getTime() - 1),
+    );
+    const lastDay = eventDayKey(lastInstant, event.allDay);
+
+    if (firstDay > weekEnd || lastDay < weekStart) {
+      return [];
+    }
+
+    // Clip the event to the boundaries of this week.
+    const startIndex = weekDates.findIndex((date) => dayKey(date) >= firstDay);
+
+    const endIndex = weekDates.findLastIndex((date) => dayKey(date) <= lastDay);
+
+    return [
+      {
+        id,
+        event,
+        startColumn: startIndex + 1,
+        endColumn: endIndex + 2, // CSS grid end is exclusive.
+        lane: 0,
+        continuesBefore: firstDay < weekStart,
+        continuesAfter: lastDay > weekEnd,
+      },
+    ];
+  });
+
+  // Start earlier events first, prioritizing longer events.
+  segments.sort(
+    (a, b) => a.startColumn - b.startColumn || b.endColumn - a.endColumn,
+  );
+
+  // Track the last occupied column in each event lane.
+  const laneEnds: number[] = [];
+
+  for (const segment of segments) {
+    // Find the first lane without an overlapping event.
+    let lane = laneEnds.findIndex(
+      (endColumn) => endColumn <= segment.startColumn,
+    );
+
+    if (lane === -1) {
+      lane = laneEnds.length;
+      laneEnds.push(0);
+    }
+
+    segment.lane = lane;
+    laneEnds[lane] = segment.endColumn;
+  }
+
+  return segments;
+}
+
+type CalendarWeekProps = {
+  dates: Date[];
+  events: EventItem[];
+  month: number;
+  todayKey: string;
+};
+
+function CalendarWeek({ dates, events, month, todayKey }: CalendarWeekProps) {
+  const segments = getWeekEventSegments(events, dates);
+
+  return (
+    <div className="relative min-h-26">
+      {/* Background: day cells, borders and today's highlight. */}
+      <div className="pointer-events-none absolute inset-0 grid grid-cols-7">
+        {dates.map((date) => (
+          <div
+            key={dayKey(date)}
+            className={`border border-background-300 ${
+              dayKey(date) === todayKey ? "bg-dsek-yellow/20" : ""
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Foreground: date numbers and event bars. */}
+      <div className="relative grid grid-cols-7 gap-y-1 pb-4">
+        {/* First row contains the day numbers. */}
+        {dates.map((date) => (
+          <div key={dayKey(date)} className="min-w-0 p-2">
+            <span
+              className={
+                date.getUTCMonth() === month ? "" : "text-foreground-400"
+              }
+            >
+              {date.getUTCDate()}
+            </span>
+          </div>
+        ))}
+
+        {/* Event bars span one or multiple day columns. */}
+        {segments.map((segment) => (
+          <div
+            key={segment.id}
+            style={{
+              gridColumn: `${segment.startColumn} / ${segment.endColumn}`,
+              gridRow: segment.lane + 2,
+            }}
+            title={segment.event.title}
+            className={[
+              "min-w-0 hyphens-auto break-words bg-dsek-blue/20",
+              "px-2 py-1 text-sm",
+              segment.continuesBefore ? "rounded-l-none" : "rounded-l-md ml-2",
+              segment.continuesAfter ? "rounded-r-none" : "rounded-r-md mr-2",
+            ].join(" ")}
+          >
+            {getShortTitle(segment.event.title)}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Calendar({ events }: CalendarProps) {
-  // serverDate: ISO string, identical on server and client
   const [today, setToday] = useState(() => dayjs().tz(CALENDAR_TZ));
+
   const [currentMonth, setCurrentMonth] = useState(() =>
     dayjs().tz(CALENDAR_TZ).startOf("month"),
   );
 
   useEffect(() => {
-    const now = dayjs();
-    if (now.isSame(today, "day")) return; // same day: skip, no state change
+    const now = dayjs().tz(CALENDAR_TZ);
 
-    console.log(`Setting today to ${now}`);
+    if (now.isSame(today, "day")) return;
+
     setToday(now);
+
     if (!now.isSame(currentMonth, "month")) {
       setCurrentMonth(now.startOf("month"));
     }
   }, [currentMonth, today]);
 
   function changeMonth(amount: number) {
-    setCurrentMonth(currentMonth.add(amount, "month"));
+    setCurrentMonth((previous) => previous.add(amount, "month"));
   }
 
   const year = currentMonth.year();
   const month = currentMonth.month();
 
   const dates = getCalendarDays(year, month);
-  const eventsByDay = getEventsByDay(events, dates);
+  const todayKey = today.format(DATE_FORMAT);
 
-  const header = WEEKDAYS.map((day) => (
-    <div key={day} className="border p-2">
-      {day}
-    </div>
-  ));
+  // Divide the calendar into Monday-to-Sunday weeks.
+  const weeks = Array.from({ length: dates.length / 7 }, (_, index) =>
+    dates.slice(index * 7, index * 7 + 7),
+  );
 
   return (
     <div>
+      {/* Month navigation. */}
       <div className="flex justify-between">
         <button
           type="button"
@@ -142,9 +281,11 @@ export default function Calendar({ events }: CalendarProps) {
         >
           Föregående
         </button>
+
         <div className="text-2xl">
           {MONTHS[month]} {year}
         </div>
+
         <button
           type="button"
           onClick={() => changeMonth(1)}
@@ -154,34 +295,26 @@ export default function Calendar({ events }: CalendarProps) {
           Nästa
         </button>
       </div>
-      <div className="grid grid-cols-7">
-        {header}
-        {dates.map((date) => {
-          const dayEvents = eventsByDay.get(dayKey(date)) ?? [];
-          const dateIsToday = dayjs(today).isSame(date, "day");
 
-          return (
-            <div
-              key={dayKey(date)}
-              className={`border p-2 pb-4 min-h-26 ${dateIsToday ? "bg-dsek-yellow/20" : ""}`}
-            >
-              {date.getUTCMonth() === month ? (
-                <div>{date.getUTCDate()}</div>
-              ) : (
-                <div className="text-foreground-400">{date.getUTCDate()}</div>
-              )}
-              {dayEvents.map(({ id, event }) => (
-                <div
-                  key={id}
-                  className="text-sm mt-2 break-words hyphens-auto bg-dsek-blue/20"
-                >
-                  {getShortTitle(event.title)}
-                </div>
-              ))}
-            </div>
-          );
-        })}
+      {/* Weekday headers. */}
+      <div className="grid grid-cols-7">
+        {WEEKDAYS.map((day) => (
+          <div key={day} className="min-w-0 border border-background-300 p-2">
+            {day}
+          </div>
+        ))}
       </div>
+
+      {/* Render each calendar week independently. */}
+      {weeks.map((week) => (
+        <CalendarWeek
+          key={dayKey(week[0])}
+          dates={week}
+          events={events}
+          month={month}
+          todayKey={todayKey}
+        />
+      ))}
     </div>
   );
 }
