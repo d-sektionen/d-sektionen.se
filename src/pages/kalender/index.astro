@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import CalendarWidget from "@components/CalendarWidget";
+import Layout from "@layouts/Layout.astro";
+import type { CalendarEvent } from "@lib/calendar";
+
+const events = await getCollection("events");
+events
+  .sort(
+    (a, b) =>
+      a.data.start.getTime() - b.data.start.getTime() ||
+      a.data.uid.localeCompare(b.data.uid),
+  )
+  .reverse();
+
+const selectedEvents: { id: string; event: CalendarEvent }[] = [];
+for (const event of events) {
+  selectedEvents.push({ id: event.id, event: event.data });
+}
+---
+
+<Layout>
+  <CalendarWidget client:only="react" events={selectedEvents} />
+</Layout>

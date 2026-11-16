@@ -21,12 +21,13 @@ npm ci
 | `npm run check:biome` | `biome check` — lint, format, and assist (import organization). |
 | `npm run check:astro` | `astro check` — diagnostics and type checking for `.astro`, TS, and TSX. |
 | `npm run check` | Runs both checks, Biome first. |
+| `npm test` | Runs the Vitest suite once. |
 | `npm run fix` | `biome check --write` — applies safe fixes, import organization, and formatting. |
 | `npm run format` | `biome format --write` — formatting only. |
 | `npm run build` | Static build to `dist/`, including Pagefind indexing and image optimization. |
 | `npm run preview` | Serves the built `dist/`. |
 
-There is no test suite. Validate changes with `npm run check` and, when relevant, `npm run build`.
+Validate changes with `npm test` and `npm run check` and, when relevant, `npm run build`.
 
 `astro check` needs `@astrojs/check` and `typescript` (both installed) plus network access: the `events` loader fetches the live Google Calendar during content sync, so an unreachable feed fails the check. The content submodule is not required for `astro check` to exit 0, but an empty submodule means no submodule content is checked — initialize the submodule for a meaningful check. It has no auto-fix option; use `npm run fix` for Biome findings.
 
@@ -34,10 +35,11 @@ By default `astro check` exits 0 on `ts(6133)` unused-local/prop hints, so dead 
 
 ## CI and deploy
 
-PR CI runs two independent workflows and never builds:
+PR CI runs three independent workflows and never builds:
 
 - `.github/workflows/biome-check.yml` runs `npx biome ci` (the CI equivalent of `biome check`).
 - `.github/workflows/astro-check.yml` runs `npx astro check` with submodules checked out.
+- `.github/workflows/vitest.yml` runs `npm test` with submodules checked out.
 
 Because PR CI does not run `astro build`, broken path aliases or imports that only fail during bundling can pass PR checks. Run `npm run build` locally whenever you touch `tsconfig.json`, import paths, assets, or content imports.
 
