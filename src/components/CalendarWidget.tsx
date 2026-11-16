@@ -63,32 +63,6 @@ function eventDayKey(date: Date, allDay: boolean): string {
 
 const dayKey = (date: Date): string => dayjs.utc(date).format(DATE_FORMAT);
 
-export function getEventsByDay(
-  events: EventItem[],
-  dates: Date[],
-): Map<string, EventItem[]> {
-  const byDay = new Map<string, EventItem[]>();
-
-  // Only include days that are actually shown in the grid
-  for (const date of dates) {
-    byDay.set(dayKey(date), []);
-  }
-
-  for (const item of events) {
-    const { start, end, allDay } = item.event;
-    const firstDay = eventDayKey(start, allDay);
-
-    const lastInstant = new Date(Math.max(start.getTime(), end.getTime() - 1));
-    const lastDay = eventDayKey(lastInstant, allDay);
-
-    for (const [date, dayEvents] of byDay) {
-      if (date >= firstDay && date <= lastDay) dayEvents.push(item);
-    }
-  }
-
-  return byDay;
-}
-
 function getShortTitle(title: string, maxLength: number = 30): string {
   if (title.length <= maxLength) return title;
 
@@ -107,7 +81,7 @@ type WeekEventSegment = {
   continuesAfter: boolean;
 };
 
-function getWeekEventSegments(
+export function getWeekEventSegments(
   events: EventItem[],
   weekDates: Date[],
 ): WeekEventSegment[] {
